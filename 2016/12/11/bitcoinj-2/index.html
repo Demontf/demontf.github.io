@@ -80,7 +80,7 @@
 
 
 
-<meta name="description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。
+<meta name="description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。本文参考bitcoinj官方文档
 1.基本结构
 bitcoinj主要使用的对象
 
@@ -88,12 +88,12 @@ NetworkParameters 选择生产或测试环境网络
 Wallet 用于存储ECKey以及其他数据
 PeerGroup管理网络链接
 BLockChain管理共享的、全局的数据结构
-BlockStore保存区块链上的数据结构，如">
+BlockSt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bitcoinj学习笔记之开始使用">
 <meta property="og:url" content="http://demontf.github.io/2016/12/11/bitcoinj-2/index.html">
 <meta property="og:site_name" content="DemonTF">
-<meta property="og:description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。
+<meta property="og:description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。本文参考bitcoinj官方文档
 1.基本结构
 bitcoinj主要使用的对象
 
@@ -101,11 +101,11 @@ NetworkParameters 选择生产或测试环境网络
 Wallet 用于存储ECKey以及其他数据
 PeerGroup管理网络链接
 BLockChain管理共享的、全局的数据结构
-BlockStore保存区块链上的数据结构，如">
-<meta property="og:updated_time" content="2016-12-11T16:02:53.000Z">
+BlockSt">
+<meta property="og:updated_time" content="2016-12-12T02:52:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bitcoinj学习笔记之开始使用">
-<meta name="twitter:description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。
+<meta name="twitter:description" content="Java版 Bitcoinbitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。本文参考bitcoinj官方文档
 1.基本结构
 bitcoinj主要使用的对象
 
@@ -113,7 +113,7 @@ NetworkParameters 选择生产或测试环境网络
 Wallet 用于存储ECKey以及其他数据
 PeerGroup管理网络链接
 BLockChain管理共享的、全局的数据结构
-BlockStore保存区块链上的数据结构，如">
+BlockSt">
 
 
 
@@ -336,7 +336,7 @@ BlockStore保存区块链上的数据结构，如">
       
 
       
-        <h3 id="Java版-Bitcoin"><a href="#Java版-Bitcoin" class="headerlink" title="Java版 Bitcoin"></a>Java版 Bitcoin</h3><p>bitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。</p>
+        <h3 id="Java版-Bitcoin"><a href="#Java版-Bitcoin" class="headerlink" title="Java版 Bitcoin"></a>Java版 Bitcoin</h3><p>bitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。本文参考bitcoinj<a href="https://bitcoinj.github.io/getting-started-java" target="_blank" rel="external">官方文档</a></p>
 <h4 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1.基本结构"></a>1.基本结构</h4><hr>
 <p>bitcoinj主要使用的对象</p>
 <ul>
@@ -383,7 +383,25 @@ BlockStore保存区块链上的数据结构，如">
 <li>文件存储前缀（选填）</li>
 </ul>
 <p>我们可以重写<code>onSetupCompleted</code>方法，加入自己的代码。bitcoinj会为他起一个线程后台运行。接着检查钱包是否至少拥有一个key，如果没有就刷新一个新的key。下一步检查是否使用了regtest模式，如果是那么链接localhost。最后调用<code>kit.startAsync()</code>。</p>
-<h4 id="5-处理事件"><a href="#5-处理事件" class="headerlink" title="5.处理事件"></a>5.处理事件</h4>
+<h4 id="5-处理事件"><a href="#5-处理事件" class="headerlink" title="5.处理事件"></a>5.处理事件</h4><p>bitcoinj中的事件监听和我们平时大多数使用的监听一样，对象需要实现一个如下几个接口：</p>
+<ul>
+<li><code>WalletEventListener</code> 钱包中发生的事件</li>
+<li><code>BlockChainListener</code> 区块链相关的事件</li>
+<li><code>PeerEventListener</code> 关于网络中节点的事件</li>
+<li><code>TransactionConfidence.Listener</code> 交易安全回滚级别相关的事件</li>
+</ul>
+<p>对于大部分的应用来说不需要使用全部这些接口，因为每个接口中都定义了很多相关的事件。使用的时候我们只需实现抽象接口即可。Bitcoinj中后台的<code>user thread</code>专门负责运行事件监听。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">kit.wallet().addEventListener(<span class="keyword">new</span> AbstractWalletEventListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCoinsReceived</span><span class="params">(Wallet w, Transaction tx, Coin prevBalance, Coin newBalance)</span> </span>&#123;</div><div class="line">        <span class="comment">// Runs in the dedicated "user thread".</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="6-接收币"><a href="#6-接收币" class="headerlink" title="6.接收币"></a>6.接收币</h4><p>设置监听，实现<code>onCoinReceived</code>方法并传入四个参数，示例中打印出收到的金额，设置Future回调</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">kit.wallet().addEventListener(<span class="keyword">new</span> AbstractWalletEventListener() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCoinsReceived</span><span class="params">(Wallet w, Transaction tx, Coin prevBalance, Coin newBalance)</span> </span>&#123;</div><div class="line">        <span class="comment">// Runs in the dedicated "user thread".</span></div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="comment">// The transaction "tx" can either be pending, or included into a block (we didn't see the broadcast).</span></div><div class="line">        Coin value = tx.getValueSentToMe(w);</div><div class="line">        System.out.println(<span class="string">"Received tx for "</span> + value.toFriendlyString() + <span class="string">": "</span> + tx);</div><div class="line">        System.out.println(<span class="string">"Transaction will be forwarded after it confirms."</span>);</div><div class="line">        <span class="comment">// Wait until it's made it into the block chain (may run immediately if it's already there).</span></div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="comment">// For this dummy app of course, we could just forward the unconfirmed transaction. If it were</span></div><div class="line">        <span class="comment">// to be double spent, no harm done. Wallet.allowSpendingUnconfirmedTransactions() would have to</span></div><div class="line">        <span class="comment">// be called in onSetupCompleted() above. But we don't do that here to demonstrate the more common</span></div><div class="line">        <span class="comment">// case of waiting for a block.</span></div><div class="line">        Futures.addCallback(tx.getConfidence().getDepthFuture(<span class="number">1</span>), <span class="keyword">new</span> FutureCallback&lt;Transaction&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(Transaction result)</span> </span>&#123;</div><div class="line">                <span class="comment">// "result" here is the same as "tx" above, but we use it anyway for clarity.</span></div><div class="line">                forwardCoins(result);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;&#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>因为比特币是一个需要全球交易顺序达成一致的全球共识系统，所以每个交易都需要有一个置信对象（confidence object）。置信对象需要处理成功和失败两种情况，因为很可能我们自己认为的已经收到了金额，但是稍后发现全球其他人并不认同。我们可以使用置信对象包括的数据做出风险决策、计算我们实际收到钱的可能性、了解共识变化。</p>
+<p>Futures是并发编程的一个重要概念，在bitcoinj中大量使用。bitcoinj使用Guava扩展了标准的Java<code>Future</code>类，生成<code>ListenableFuture</code>。<code>ListenableFuture</code>可以获取一些future的计算和状态，可以等待执行结束也可以注册回调。Futures失败的时候会收到一个异常。</p>
+<p>当交易被确认后调用<code>forwardCoins</code></p>
+<h4 id="7-发送币"><a href="#7-发送币" class="headerlink" title="7.发送币"></a>7.发送币</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Coin value = tx.getValueSentToMe(kit.wallet());</div><div class="line">System.out.println(<span class="string">"Forwarding "</span> + value.toFriendlyString() + <span class="string">" BTC"</span>);</div><div class="line"><span class="comment">// Now send the coins back! Send with a small fee attached to ensure rapid confirmation.</span></div><div class="line"><span class="keyword">final</span> Coin amountToSend = value.subtract(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE);</div><div class="line"><span class="keyword">final</span> Wallet.SendResult sendResult = kit.wallet().sendCoins(kit.peerGroup(), forwardingAddress, amountToSend);</div><div class="line">System.out.println(<span class="string">"Sending ..."</span>);</div><div class="line"><span class="comment">// Register a callback that is invoked when the transaction has propagated across the network.</span></div><div class="line"><span class="comment">// This shows a second style of registering ListenableFuture callbacks, it works when you don't</span></div><div class="line"><span class="comment">// need access to the object the future returns.</span></div><div class="line">sendResult.broadcastComplete.addListener(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="comment">// The wallet has changed now, it'll get auto saved shortly or when the app shuts down.</span></div><div class="line">         System.out.println(<span class="string">"Sent coins onwards! Transaction hash is "</span> + sendResult.tx.getHashAsString());</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>首先我们查询收到了多少金额（同样也可以通过<code>onCoinsReceived</code>中的<code>newBalance</code>获得），接着确定要发送的金额等同于收到的金额，设置交易手续费为最低，这样可能会延长确认时间。</p>
+<p>最后调用<code>sendCoins</code>，该方法会返回一个<code>SendResult</code>对象其中包括创建的交易和<code>ListenableFuture</code>。</p>
+<p>交易手续费一方面可以用来防止拒绝服务另一方面可以用来激励矿工。用户可以自定义每笔交易的手续费。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SendRequest req = SendRequest.to(address, value);</div><div class="line"><span class="comment">//kb kilobyte 每千字节</span></div><div class="line">req.feePerKb = Coin.parseCoin(<span class="string">"0.0005"</span>);</div><div class="line">Wallet.SendResult result = wallet.sendCoins(peerGroup, req);</div><div class="line">Transaction createdTx = result.tx;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -600,7 +618,7 @@ BlockStore保存区块链上的数据结构，如">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java版-Bitcoin"><span class="nav-number">1.</span> <span class="nav-text">Java版 Bitcoin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本结构"><span class="nav-number">1.1.</span> <span class="nav-text">1.基本结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-安装"><span class="nav-number">1.2.</span> <span class="nav-text">2.安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-密钥和地址"><span class="nav-number">1.3.</span> <span class="nav-text">3.密钥和地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Wallet-App-工具"><span class="nav-number">1.4.</span> <span class="nav-text">4.Wallet App 工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-处理事件"><span class="nav-number">1.5.</span> <span class="nav-text">5.处理事件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java版-Bitcoin"><span class="nav-number">1.</span> <span class="nav-text">Java版 Bitcoin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本结构"><span class="nav-number">1.1.</span> <span class="nav-text">1.基本结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-安装"><span class="nav-number">1.2.</span> <span class="nav-text">2.安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-密钥和地址"><span class="nav-number">1.3.</span> <span class="nav-text">3.密钥和地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Wallet-App-工具"><span class="nav-number">1.4.</span> <span class="nav-text">4.Wallet App 工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-处理事件"><span class="nav-number">1.5.</span> <span class="nav-text">5.处理事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-接收币"><span class="nav-number">1.6.</span> <span class="nav-text">6.接收币</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-发送币"><span class="nav-number">1.7.</span> <span class="nav-text">7.发送币</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
