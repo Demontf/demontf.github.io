@@ -317,71 +317,13 @@
 
       
         
-          
-            <h2 id="bitcoinj-core"><a href="#bitcoinj-core" class="headerlink" title="bitcoinj core"></a>bitcoinj core</h2><h3 id="Monetary-java"><a href="#Monetary-java" class="headerlink" title="Monetary.java"></a>Monetary.java</h3><p>这是一个接口类，实现此接口代表是一个货币，例如比特币。接口中包含<code>int smallestUnitExponet()</code>(最小分割单元，通常是8)、<code>long getValue()</code>、<code>int sigum()</code>。</p>
+          <h2 id="bitcoinj-core"><a href="#bitcoinj-core" class="headerlink" title="bitcoinj core"></a>bitcoinj core</h2><h3 id="Monetary-java"><a href="#Monetary-java" class="headerlink" title="Monetary.java"></a>Monetary.java</h3><p>这是一个接口类，实现此接口代表是一个货币，例如比特币。接口中包含<code>int smallestUnitExponet()</code>(最小分割单元，通常是8)、<code>long getValue()</code>、<code>int sigum()</code>。</p>
 <h3 id="Coin-java"><a href="#Coin-java" class="headerlink" title="Coin.java"></a>Coin.java</h3><p>这是一个实现了Monetary接口的final类。 定义了不同大小的比特币：<code>ZERO</code>、<code>CENT</code>、<code>MILLICOIN</code>、<code>MICROCOIN</code>、<code>SATOSHI</code>、<code>FIFTY_COIN</code>、<code>NEGATIVE_SATOSHI</code>。定义了价值的加减乘除运算方法。</p>
-<h3 id="Base58-java"><a href="#Base58-java" class="headerlink" title="Base58.java"></a>Base58.java</h3><p>这个类主要用于编码比特币地址或者任意数据,使其变为方便阅读的有大小写字母组成的字符串。bitcoin中的base58与Flickr的略有不同。校验部分使用sha256哈希两次。主要的方法有：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//58字符 不包括0IlO</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">char</span>[] ALPHABET = <span class="string">"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"</span>.toCharArray();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">char</span> ENCODED_ZERO = ALPHABET[<span class="number">0</span>];</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>[] INDEXES = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">128</span>];</div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        Arrays.fill(INDEXES, -<span class="number">1</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ALPHABET.length; i++) &#123;</div><div class="line">            INDEXES[ALPHABET[i]] = i;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">/**</span></div><div class="line">     * 将输入的byte编码成base58 字符串，无校验和.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> input the bytes to encode</div><div class="line">     * <span class="doctag">@return</span> base58-encoded string</div><div class="line">     */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encode</span><span class="params">(<span class="keyword">byte</span>[] input)</span></span>&#123;...&#125;   </div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line">     * 解码base58字符串 为原数据的 bytes.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> input the base58-encoded string to decode</div><div class="line">     * <span class="doctag">@return</span> the decoded data bytes</div><div class="line">     * <span class="doctag">@throws</span> AddressFormatException 如果base58不是一个合法的字符串 继承于IllegalArgumentException</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] decode(String input) <span class="keyword">throws</span> AddressFormatException &#123;...&#125;</div></pre></td></tr></table></figure>
-<h3 id="VersionedChecksummedBytes-java"><a href="#VersionedChecksummedBytes-java" class="headerlink" title="VersionedChecksummedBytes.java"></a>VersionedChecksummedBytes.java</h3><p>比特币key的格式化类。格式化一般包括[one version byte]、[data types]、[4 checksum bytes]。在base58的基础上添加了比特币地址的前后缀校验。</p>
-<p><strong>bitcoinj在单元测试中使用BaseEncoding类，这个类来自com.google.common.io</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseEncoding</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BaseEncoding BASE64 = <span class="keyword">new</span> BaseEncoding.StandardBaseEncoding(<span class="string">"base64()"</span>, <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</span>, Character.valueOf(<span class="string">'='</span>));</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BaseEncoding BASE64_URL = <span class="keyword">new</span> BaseEncoding.StandardBaseEncoding(<span class="string">"base64Url()"</span>, <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"</span>, Character.valueOf(<span class="string">'='</span>));</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BaseEncoding BASE32 = <span class="keyword">new</span> BaseEncoding.StandardBaseEncoding(<span class="string">"base32()"</span>, <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"</span>, Character.valueOf(<span class="string">'='</span>));</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BaseEncoding BASE32_HEX = <span class="keyword">new</span> BaseEncoding.StandardBaseEncoding(<span class="string">"base32Hex()"</span>, <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUV"</span>, Character.valueOf(<span class="string">'='</span>));</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BaseEncoding BASE16 = <span class="keyword">new</span> BaseEncoding.StandardBaseEncoding(<span class="string">"base16()"</span>, <span class="string">"0123456789ABCDEF"</span>, (Character)<span class="keyword">null</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从源码中可以看出其支持<code>base16</code>、<code>base32</code>、<code>base32Hex</code>、<code>base64</code>、<code>base64Url</code>。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Encoding</th>
-<th style="text-align:center">Alphabet</th>
-<th style="text-align:right">char:byte ratio</th>
-<th style="text-align:right">Default padding</th>
-<th style="text-align:right">Comments</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">base16()</td>
-<td style="text-align:center">0-9 A-F</td>
-<td style="text-align:right">2.00</td>
-<td style="text-align:right">N/A</td>
-<td style="text-align:right">传统16进制，默认大写字母</td>
-</tr>
-<tr>
-<td style="text-align:left">base32()</td>
-<td style="text-align:center">A-Z 2-7</td>
-<td style="text-align:right">1.60</td>
-<td style="text-align:right">=</td>
-<td style="text-align:right">方便阅读，不会有0/O, 1/l的混淆，默认大写</td>
-</tr>
-<tr>
-<td style="text-align:left">base32Hex()</td>
-<td style="text-align:center">0-9 A-V</td>
-<td style="text-align:right">1.60</td>
-<td style="text-align:right">=</td>
-<td style="text-align:right"></td>
-</tr>
-<tr>
-<td style="text-align:left">base64()</td>
-<td style="text-align:center">0-9 A-Z a-z + /</td>
-<td style="text-align:right">1.33</td>
-<td style="text-align:right">=</td>
-<td style="text-align:right"></td>
-</tr>
-<tr>
-<td style="text-align:left">base64Url()</td>
-<td style="text-align:center">0-9 A-Z a-z - _</td>
-<td style="text-align:right">1.33</td>
-<td style="text-align:right">=</td>
-<td style="text-align:right">可安全的用于文件名、URLs, 不怕泄露</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Address-java"><a href="#Address-java" class="headerlink" title="Address.java"></a>Address.java</h3><p>比特币种的地址类似“1MsScoe2fTJoq4ZPdQgqyhgWeoNamYPevy”是从椭圆曲线产生的公钥处生成的(详细原理在<a href="http://demontf.github.io/2016/12/11/bitcoinj-2/">Bitcoinj学习笔记之开始使用的密钥和地址</a>有介绍)。因为是使用RIPEMD160对公钥进行hash，所以长度是160bits即20bytes。比特币采用支付给脚本的哈希值（pay-to-script-hash，P2SH）。</p>
-<blockquote>
-<p>比特币的工作机制要求币的发送者必须在交易时时明确指定脚本。这种机制有的时候不太适用：假如在遇到支付场景时，卖家使用了多重签名地址，需要用户支付给一个脚本地址而不是一个简单的地址，这样对于用户而言会变得很复杂。</p>
-<p>比特币用了一种很聪明的办法来解决这个问题，不仅可以实现多重签名地址支付，而且还可以实现复杂的资金监管规则。比特币使用的办法是：收款方告诉付款方“请把比特币支付给某个脚本地址，脚本的哈希值是xxx，在取款的时候，我会提上述哈希值对应的脚本，同时，提供数据通过脚本的验证。”而不是“请把比特币支付给某个公钥，公钥的哈希值是XXX”。</p>
-</blockquote>
-<p>类中重要的方法有：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> <span class="keyword">extends</span> <span class="title">VersionedChecksummedBytes</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 20字节</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LENGTH = <span class="number">20</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> NetworkParameters params;</div><div class="line">     <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * eg. new Address(MainNetParams.get(), NetworkParameters.getAddressHeader(), Hex.decode("4a22c3c4cbb31e4d03b15550636762bda0baf85a"));&lt;/pre&gt;</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Address</span><span class="params">(NetworkParameters params, <span class="keyword">int</span> version, <span class="keyword">byte</span>[] hash160)</span> <span class="keyword">throws</span> WrongNetworkException </span>&#123;</div><div class="line">       </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回代表P2SH脚本hash的地址</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Address <span class="title">fromP2SHHash</span><span class="params">(NetworkParameters params, <span class="keyword">byte</span>[] hash160)</span> </span>&#123;&#125;</div><div class="line">    <span class="comment">/** </span></div><div class="line">     *  返回一个地址，根据给定的脚本公钥计算出的hash</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Address <span class="title">fromP2SHScript</span><span class="params">(NetworkParameters params, Script scriptPubKey)</span> </span>&#123;&#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/05/bitcoinj-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -773,7 +715,7 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x63;&#x68;&#101;&#110;&#x67;&#x78;&#x75;&#101;&#x63;&#x63;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x63;&#x68;&#101;&#110;&#x67;&#x78;&#x75;&#101;&#x63;&#x63;&#64;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a> </p>
+<p>本文作者：兔子精 <a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x63;&#x68;&#101;&#110;&#x67;&#x78;&#x75;&#x65;&#99;&#x63;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;">&#x63;&#x68;&#101;&#110;&#x67;&#x78;&#x75;&#x65;&#99;&#x63;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
               阅读全文 &raquo;
