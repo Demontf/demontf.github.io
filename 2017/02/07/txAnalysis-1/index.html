@@ -1,0 +1,889 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="bitcoin,blockchain," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="万事开头难啊，经历了几天的反复试错和各种尝试终于成功实现了访问JSON-RPC接口，获取Bitcoin的数据。可以开开心心的获取数据进行分析研究了，下面记录一下我的心路历程。
+比特币开发者的 API首先明确我的目是要获取Bitcoin区块链中的数据。一开始我理所当然的想到会不会有第三方的几口可以直接调取获得这些数据呢？这非常符合一个程序员的思维（其实就是懒）。于是我找到了 blockchain.i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现访问Bitcoin核心的JSON-RPC接口">
+<meta property="og:url" content="http://demontf.github.io/2017/02/07/txAnalysis-1/index.html">
+<meta property="og:site_name" content="牛头梗和兔子精">
+<meta property="og:description" content="万事开头难啊，经历了几天的反复试错和各种尝试终于成功实现了访问JSON-RPC接口，获取Bitcoin的数据。可以开开心心的获取数据进行分析研究了，下面记录一下我的心路历程。
+比特币开发者的 API首先明确我的目是要获取Bitcoin区块链中的数据。一开始我理所当然的想到会不会有第三方的几口可以直接调取获得这些数据呢？这非常符合一个程序员的思维（其实就是懒）。于是我找到了 blockchain.i">
+<meta property="og:updated_time" content="2017-02-07T07:14:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现访问Bitcoin核心的JSON-RPC接口">
+<meta name="twitter:description" content="万事开头难啊，经历了几天的反复试错和各种尝试终于成功实现了访问JSON-RPC接口，获取Bitcoin的数据。可以开开心心的获取数据进行分析研究了，下面记录一下我的心路历程。
+比特币开发者的 API首先明确我的目是要获取Bitcoin区块链中的数据。一开始我理所当然的想到会不会有第三方的几口可以直接调取获得这些数据呢？这非常符合一个程序员的思维（其实就是懒）。于是我找到了 blockchain.i">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 实现访问Bitcoin核心的JSON-RPC接口 | 牛头梗和兔子精 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?369765d3b130b2a906f6a51465914ca5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牛头梗和兔子精</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">指尖不一定可以改变世界，但可以改变生活</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                实现访问Bitcoin核心的JSON-RPC接口
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-07T15:11:58+08:00" content="2017-02-07">
+              2017-02-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/区块链技术/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/07/txAnalysis-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/07/txAnalysis-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/07/txAnalysis-1/" class="leancloud_visitors" data-flag-title="实现访问Bitcoin核心的JSON-RPC接口">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>万事开头难啊，经历了几天的反复试错和各种尝试终于成功实现了访问JSON-RPC接口，获取Bitcoin的数据。可以开开心心的获取数据进行分析研究了，下面记录一下我的心路历程。</p>
+<h3 id="比特币开发者的-API"><a href="#比特币开发者的-API" class="headerlink" title="比特币开发者的 API"></a>比特币开发者的 API</h3><p>首先明确我的目是要获取Bitcoin区块链中的数据。一开始我理所当然的想到会不会有第三方的几口可以直接调取获得这些数据呢？这非常符合一个程序员的思维（其实就是懒）。于是我找到了 <a href="https://blockchain.info/" target="_blank" rel="external">blockchain.info</a>，果然里面提供了丰富的获取区块链数据的工具包括：</p>
+<a id="more"></a>
+<ul>
+<li>Blockchain钱包API<ul>
+<li>Blockchain 钱包 API。用API从 Blockchain 的钱包账户来发送和接收付款。</li>
+<li>Bitcoin-Qt 兼容的 JSON RPC。Blockchain.info 能够协助商户使用钱包账户从事商业活动的比特币化 RPC 服务器。 </li>
+<li>创建钱包。以编程方式为您的用户创建钱包，您亦能加载和兑换资金。</li>
+</ul>
+</li>
+<li>在交易记录和区块上的数据<ul>
+<li>Blockchain 数据 API。查询 json 区块上的数据和交易。您在此网站看到的几乎所有的数据都可用以 JSON 格式。 </li>
+<li>简单查询 API。为查询区块链数据的简单纯文本 API。</li>
+<li>Websocket。低延迟流套接字通道提供了新的区块和交易数据。订阅新区块、交易记录、某个地址和接收JSON描述某个事件发生时的交易或区块的消息。</li>
+</ul>
+</li>
+</ul>
+<p>并且Blockchain.info提供多种语言的 <a href="https://github.com/blockchain" target="_blank" rel="external">官方API库</a>，可以说到此我们已经完美的解决了如何获取Bitcoin区块链中的数据这一目标。但是好奇的我在想能不能自己本地也起一个RPC-Server，这样即使离线也可以获取区块数据进行数据分析了。那么接下来目标就改为如何运行一个本地的RPC-Server并从中获取区块链数据。</p>
+<h3 id="运行Bitcoin完全节点"><a href="#运行Bitcoin完全节点" class="headerlink" title="运行Bitcoin完全节点"></a>运行Bitcoin完全节点</h3><p>我最终采用的是Go语言实现的bitcoin完全节点 <a href="https://github.com/btcsuite/btcd" target="_blank" rel="external">btcsuite</a>。由于比较心疼我的笔记本，所以找了一台的曙光的服务器起了一个虚拟就来运行btcd。</p>
+<ul>
+<li>笔记本 MacBook Pro OS X Yosemite, 用做实现客户端</li>
+<li>服务器 曙光 虚拟机 Ubuntu 14.04, 用做运行Bitcoin完全节点</li>
+</ul>
+<p>首先需要在服务器安装go，安装指导详见 <a href="http://golang.org/doc/install" target="_blank" rel="external">http://golang.org/doc/install</a>。</p>
+<p>安装完后可以确认是否安装成功，顺便记录一下我的安装路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ go version</div><div class="line">go version go1.7.4 linux/amd64</div><div class="line">$ go env GOROOT GOPATH</div><div class="line">/usr/local/go</div><div class="line">/home/demontf/blockchain/golang</div></pre></td></tr></table></figure>
+<p><code>GOROOT</code>和<code>GOPATH</code>最好不要是同一个路径，然后记得把<code>$GOPATH/bin</code>添加到系统<code>PATH</code>中。接着安装btcd。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ go get -u github.com/Masterminds/glide</div><div class="line">$ git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd</div><div class="line">$ cd $GOPATH/src/github.com/btcsuite/btcd</div><div class="line">$ glide install</div><div class="line">$ go install . ./cmd/..</div></pre></td></tr></table></figure>
+<p>安装完后在<code>$GOPATH/bin</code>下面会多出<code>addblock</code>、<code>btcctl</code>、  <code>btcd</code>、<code>findcheckpoint</code> 、<code>gencerts</code>这几个命令。使用 xx –help可以方便的了解使用方法。<br><code>btcd</code> 比较常用，<a href="https://godoc.org/github.com/btcsuite/btcd" target="_blank" rel="external">参考手册</a> </p>
+<p>在控制台运行<code>btcd &amp;</code>，就会发现一个bitcoin的全节点成功运行起来了，但接下来是一个漫长的过程，100G+的区块链数据花了我近一周的时间才下载完成，存储路径：/home/demontf/.btcd/data/mainnet/ peers.json中记录了所有节点信息。blocks_ffldb中存储了所有区块数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">~/.btcd/data/mainnet/blocks_ffldb$ ls -lh</div><div class="line">total 96G</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 17:46 000000000.fdb</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 18:14 000000001.fdb</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 17:22 000000002.fdb</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 17:37 000000003.fdb</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 18:30 000000004.fdb</div><div class="line">-rw-rw-r-- 1 demontf demontf 512M Jan 19 19:07 000000005.fdb</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="配置开启RPC-Server"><a href="#配置开启RPC-Server" class="headerlink" title="配置开启RPC-Server"></a>配置开启RPC-Server</h3><p>btcd默认是关闭RPC服务的, 需要在/home/demontf/.btcd/btcd.conf中作如下配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[Application Options]</div><div class="line">rpcuser=myuser</div><div class="line">rpcpass=SomeDecentp4ssw0rd</div><div class="line">rpclimituser=mylimituser</div><div class="line">rpclimitpass=Limitedp4ssw0rd</div></pre></td></tr></table></figure>
+<p>RPC服务默认监听8334端口，更多配置详情可以参考 <a href="https://github.com/btcsuite/btcd/blob/master/docs/configure_rpc_server_listen_interfaces.md" target="_blank" rel="external">RPC服务配置</a>。<br>btcd 按照Bitcoin API 标准<a href="https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list" target="_blank" rel="external">调用列表</a>(版本0.8.0) 兼容实现各个接口，并对每个接口是否访问安全设置了user和limituser。</p>
+<p>btcd采用TLS提供了基于<code>HTTP POST</code>和<code>WebSockets</code>的API访问方式。相比较于<code>HTTP</code>，<code>WebSockets</code>拥有三个优势：允许一个连接中有多个请求，支持异步通知，大规模发送请求。但是，<code>HTTP</code>的方式在我的经历中更加常见，我也更加熟悉。Btcd 除了提供了 <a href="https://github.com/btcsuite/btcd/blob/master/docs/json_rpc_api.md#Methods" target="_blank" rel="external">标准API</a> 之外，针对<code>WebSockets</code>设计了 <a href="https://github.com/btcsuite/btcd/blob/master/docs/json_rpc_api.md#WSExtMethods" target="_blank" rel="external">扩展API</a>。</p>
+<p>完成配置之后，再启动btcd就会发现RPCServer 已经启动并监听8334端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">demontf@ubuntu:~/.btcd$ btcd</div><div class="line">12:23:05 2017-02-07 [INF] BTCD: Version 0.12.0-beta</div><div class="line">12:23:05 2017-02-07 [INF] BTCD: Loading block database from &apos;/home/demontf/.btcd/data/mainnet/blocks_ffldb&apos;</div><div class="line">12:23:05 2017-02-07 [INF] BTCD: Block database loaded</div><div class="line">12:23:05 2017-02-07 [WRN] CHAN: Unknown new rules activated (bit 0)</div><div class="line">12:23:05 2017-02-07 [INF] CHAN: Chain state (height 451824, hash 000000000000000000e879c5a7bcbfd0005e43b751f10c8253cb17be829cf4b9, totaltx 194051683, work 74090852964515113230545583)</div><div class="line">12:23:05 2017-02-07 [INF] RPCS: RPC server listening on 127.0.0.1:8334</div><div class="line">12:23:05 2017-02-07 [INF] RPCS: RPC server listening on [::1]:8334</div><div class="line">12:23:05 2017-02-07 [INF] AMGR: Loaded 13318 addresses from file &apos;/home/demontf/.btcd/data/mainnet/peers.json&apos;</div><div class="line">12:23:05 2017-02-07 [INF] CMGR: Server listening on [::]:8333</div><div class="line">12:23:05 2017-02-07 [INF] CMGR: Server listening on 0.0.0.0:8333</div><div class="line">12:23:06 2017-02-07 [INF] CMGR: 40 addresses found from DNS seed seed.bitnodes.io</div><div class="line">12:23:06 2017-02-07 [INF] CMGR: 25 addresses found from DNS seed seed.bitcoinstats.com</div><div class="line">12:23:06 2017-02-07 [INF] CMGR: 13 addresses found from DNS seed bitseed.xf2.org</div><div class="line">12:23:06 2017-02-07 [INF] BMGR: New valid peer [2001:470:1f15:11f8::10]:8333 (outbound) (/Satoshi:0.13.2/)</div><div class="line">12:23:06 2017-02-07 [INF] BMGR: Syncing to block height 451894 from peer [2001:470:1f15:11f8::10]:8333</div></pre></td></tr></table></figure>
+<h3 id="访问Client的实现"><a href="#访问Client的实现" class="headerlink" title="访问Client的实现"></a>访问Client的实现</h3><p>btcd 提供了两个官方的实现都是针对<code>WebSockets</code>的<a href="https://github.com/btcsuite/btcd/blob/master/docs/json_rpc_api.md#ExampleGoApp" target="_blank" rel="external">Go版本</a>、<a href="https://github.com/btcsuite/btcd/blob/master/docs/json_rpc_api.md#ExampleNodeJsCode" target="_blank" rel="external">Nodejs版本</a>。按照官网指导可以正确的实现获取数据的功能，基本没有问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var WebSocket = require(&apos;ws&apos;);</div><div class="line"></div><div class="line">// Load the certificate for the TLS connection which is automatically</div><div class="line">// generated by btcd when it starts the RPC server and doesn&apos;t already</div><div class="line">// have one.</div><div class="line">var cert = fs.readFileSync(&apos;rpc.cert&apos;);</div><div class="line">var user = &quot;demontf&quot;;</div><div class="line">var password = &quot;*****&quot;;</div><div class="line"></div><div class="line">// Initiate the websocket connection.  The btcd generated certificate acts as</div><div class="line">// its own certificate authority, so it needs to be specified in the &apos;ca&apos; array</div><div class="line">// for the certificate to properly validate.</div><div class="line">var ws = new WebSocket(&apos;wss://127.0.0.1:8334/ws&apos;, &#123;</div><div class="line">  headers: &#123;</div><div class="line">    &apos;Authorization&apos;: &apos;Basic &apos;+new Buffer(user+&apos;:&apos;+password).toString(&apos;base64&apos;)</div><div class="line">  &#125;,</div><div class="line">  cert: cert,</div><div class="line">  ca: [cert]</div><div class="line">&#125;);</div><div class="line">ws.on(&apos;open&apos;, function() &#123;</div><div class="line">    console.log(&apos;CONNECTED&apos;);</div><div class="line">    // Send a JSON-RPC command to be notified when blocks are connected and</div><div class="line">    // disconnected from the chain.</div><div class="line">    // get most recent block hash</div><div class="line">    ws.send(&apos;&#123;&quot;jsonrpc&quot;:&quot;1.0&quot;,&quot;id&quot;:&quot;getbestblockhash&quot;,&quot;method&quot;:&quot;getbestblockhash&quot;,&quot;params&quot;:[]&#125;&apos;);</div><div class="line"></div><div class="line">&#125;);</div><div class="line">ws.on(&apos;message&apos;, function(data, flags) &#123;</div><div class="line">    //console.log(data);</div><div class="line">    var res = JSON.parse(data);</div><div class="line">    var flag = res.id;</div><div class="line"></div><div class="line">    switch(flag)&#123;</div><div class="line">      case &quot;getbestblockhash&quot;:</div><div class="line">        console.log(&quot;run getbestblockhash:&quot;);</div><div class="line">        //console.log(res.result);</div><div class="line">        ws.send(&apos;&#123;&quot;jsonrpc&quot;:&quot;1.0&quot;,&quot;id&quot;:&quot;getblock&quot;,&quot;method&quot;:&quot;getblock&quot;,&quot;params&quot;:[&quot;&apos;+res.result+&apos;&quot;,true,true]&#125;&apos;);</div><div class="line">        break;</div><div class="line">      case &quot;getblock&quot;:</div><div class="line">        console.log(&quot;run getblock&quot;);</div><div class="line">        //console.log(res.result);</div><div class="line">        var previousblockhash = res.result.previousblockhash;</div><div class="line">        var confirmations = res.result.confirmations;</div><div class="line">        var size = res.result.size;</div><div class="line">        var height = res.result.height;</div><div class="line">        var version = res.result.version;</div><div class="line">        var merkleroot = res.result.merkleroot;</div><div class="line">        var time = res.result.time;</div><div class="line">        var nonce = res.result.nonce;</div><div class="line">        var bits = res.result.bits;</div><div class="line">        var difficulty = res.result.difficulty;</div><div class="line">        var nextblockhash = res.result.nextblockhash;</div><div class="line">        var txs = res.result.rawtx;</div><div class="line">        </div><div class="line">        ws.send(&apos;&#123;&quot;jsonrpc&quot;:&quot;1.0&quot;,&quot;id&quot;:&quot;decoderawtransaction&quot;,&quot;method&quot;:&quot;decoderawtransaction&quot;,&quot;params&quot;:[&quot;&apos;+txs[0][&apos;hex&apos;]+&apos;&quot;]&#125;&apos;);</div><div class="line">        break;</div><div class="line">      case &quot;getrawtransaction&quot;:</div><div class="line">        console.log(&quot;run getrawtransaction:&quot;);</div><div class="line">        console.log(res);</div><div class="line">        break;</div><div class="line">      case &quot;getpeerinfo&quot;:</div><div class="line">        console.log(res);</div><div class="line">        break;</div><div class="line">      case &quot;decoderawtransaction&quot;://解析交易</div><div class="line">        console.log(&quot;run decoderawtransaction:&quot;);</div><div class="line">        var vin = res.result[&apos;vin&apos;];</div><div class="line">        var vout = res.result[&apos;vout&apos;];</div><div class="line">        console.log(vin);</div><div class="line">        console.log(vout);</div><div class="line">        break;</div><div class="line">      default:console.log(&quot;run default&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">ws.on(&apos;error&apos;, function(derp) &#123;</div><div class="line">  console.log(&apos;ERROR:&apos; + derp);</div><div class="line">&#125;)</div><div class="line">ws.on(&apos;close&apos;, function(data) &#123;</div><div class="line">  console.log(&apos;DISCONNECTED&apos;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>起初我尝试用nodejs的方式获取并分析数据，注意需要使用<br><code>npm install ws</code>安装websocket, 由于对nodejs的不熟悉感觉用起来总是怪怪的不舒服，最终决定使用Java来实现。这一过程中遇到了不少坑。</p>
+<p>起初为了挑战没有选择用Http协议实现，选择陌生的WebSocket协议也算是学习啦。</p>
+<p>WebSocketClientEndpoint.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.demontf;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by demontf on 17/2/6.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">import</span> sun.misc.BASE64Encoder;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.websocket.*;</div><div class="line"><span class="keyword">import</span> java.net.URI;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@ClientEndpoint</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebsocketClientEndpoint</span> </span>&#123;</div><div class="line"></div><div class="line">    Session userSession = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">private</span> MessageHandler messageHandler;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WebsocketClientEndpoint</span><span class="params">(URI endpointURI)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            WebSocketContainer container = ContainerProvider.getWebSocketContainer();</div><div class="line">            ClientEndpointConfig config = ClientEndpointConfig.Builder.create().configurator(<span class="keyword">new</span> ClientEndpointConfig.Configurator() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeRequest</span><span class="params">(Map&lt;String, List&lt;String&gt;&gt; headers)</span> </span>&#123;</div><div class="line">                    List&lt;String&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">                    String s = <span class="keyword">new</span> BASE64Encoder().encode(<span class="string">"demontf:123456"</span>.getBytes());</div><div class="line">                    arrayList.add(<span class="string">"Basic "</span> + s);</div><div class="line">                    headers.put(<span class="string">"Authorization"</span>, arrayList);</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;).build();</div><div class="line"></div><div class="line">            container.connectToServer(<span class="keyword">new</span> Endpoint() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpen</span><span class="params">(Session session, EndpointConfig endpointConfig)</span> </span>&#123;</div><div class="line">                    System.out.println(<span class="string">"inner opening websocket"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;, config, endpointURI);</div><div class="line"></div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Callback hook for Connection open events.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> userSession the userSession which is opened.</div><div class="line">     */</div><div class="line">    <span class="meta">@OnOpen</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOpen</span><span class="params">(Session userSession)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"opening websocket"</span>);</div><div class="line">        <span class="keyword">this</span>.userSession = userSession;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Callback hook for Connection close events.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> userSession the userSession which is getting closed.</div><div class="line">     * <span class="doctag">@param</span> reason      the reason for connection close</div><div class="line">     */</div><div class="line">    <span class="meta">@OnClose</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClose</span><span class="params">(Session userSession, CloseReason reason)</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"closing websocket"</span>);</div><div class="line">        <span class="keyword">this</span>.userSession = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Callback hook for Message Events. This method will be invoked when a client send a message.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> message The text message</div><div class="line">     */</div><div class="line">    <span class="meta">@OnMessage</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(String message)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.messageHandler != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.messageHandler.handleMessage(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * register message handler</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> msgHandler</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addMessageHandler</span><span class="params">(MessageHandler msgHandler)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.messageHandler = msgHandler;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Send a message.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> message</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String message)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.userSession.getAsyncRemote().sendText(message);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Message handler.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@author</span> Jiji_Sasidharan</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">MessageHandler</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(String message)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试T.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.demontf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.net.URI;</div><div class="line"><span class="keyword">import</span> java.net.URISyntaxException;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by demontf on 17/2/6.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// open websocket</span></div><div class="line">            System.out.println(<span class="string">"s"</span>);<span class="comment">//wss://real.okcoin.cn:10440/websocket/okcoinapi</span></div><div class="line">            <span class="keyword">final</span> WebsocketClientEndpoint clientEndPoint = <span class="keyword">new</span> WebsocketClientEndpoint(<span class="keyword">new</span> URI(<span class="string">"wss://127.0.0.1:8334/ws"</span>));</div><div class="line"></div><div class="line">            <span class="comment">// add listener</span></div><div class="line">            clientEndPoint.addMessageHandler(<span class="keyword">new</span> WebsocketClientEndpoint.MessageHandler() &#123;</div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(String message)</span> </span>&#123;</div><div class="line">                    System.out.println(message);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">            <span class="comment">// send message to websocket</span></div><div class="line">            clientEndPoint.sendMessage(<span class="string">"&#123;'jsonrpc':'1.0','id':'getbestblockhash','method':'getbestblockhash','params':[]&#125;"</span>);</div><div class="line"></div><div class="line">            <span class="comment">// wait 5 seconds for messages from websocket</span></div><div class="line">            Thread.sleep(<span class="number">5000</span>);</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</div><div class="line">            System.err.println(<span class="string">"InterruptedException exception: "</span> + ex.getMessage());</div><div class="line">        &#125; <span class="keyword">catch</span> (URISyntaxException ex) &#123;</div><div class="line">            System.err.println(<span class="string">"URISyntaxException exception: "</span> + ex.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一开始写Java版WebSocket实现的时候，我以为和Nodejs一样需要在Header中添加Certification，结果后台一直返回Unknown certificate，并且在文档中也没有查到传certification的key名称用什么。在Go中用的是Certification在Nodejs中用的是Cert。进过一番研究才知道Java提供了密钥和证书管理工具<code>Keytool</code>。SSL(Secure Sockets Layer，安全套接层)/TLS(Transport Layer Security，传输层安全)保证了客户端和web服务器的连接安全。客户端通过HTTPS连接使用web资源。为创建与客户端的安全连接，以加密格式发送/接受信息，Java提供了完善的安全体系API类库。</p>
+<ul>
+<li>JCA(Java Cryptography Architecture，Java加密体系结构)</li>
+<li>JCE(Java Cryptographic Extension，Java加密扩展包)</li>
+<li>JSSE(Java Secured Socket Extension，Java安全套接字扩展包)</li>
+</ul>
+<p>SSL连接要求web服务器持有数字证书，该证书使客户端信任该web应用的可靠性。需要发送加密信息的应用从CA(Certificate Authority，数字证书认证机构)申请数字证书。CA验证应用所有者的详细信息和其他身份信息，并签发数字证书。<br>在PKI(Public Key Infrastructure，公钥基础设施)体系中，数字证书由CA签发，它包括识别名(DN,Distinguished Name)/所有者名称/使用者(Subject)，唯一识别证书的序列号，所有者公钥，签发日期，到期时间，CA识别名，签发机构(CA)的数字签名，签名的创建算法。CA签发的数字证书发布在CA的注册库中，这样认证用户就可以使用所有者的公钥。</p>
+<p>在/home/user/.btcd/目录下 已经生成了数字证书rpc.cert。如果本机挖矿那么需要将btcd RPC的证书添加到系统的CA列表里。</p>
+<p>1.拷贝 rpc.cert 到 /usr/share/ca-certificates: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$cp /home/user/.btcd/rpc.cert /usr/share/ca-certificates/btcd.crt</div></pre></td></tr></table></figure>
+<ol>
+<li>添加 btcd.crt 到 /etc/ca-certificates.conf: </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$echo btcd.crt &gt;&gt; /etc/ca-certificates.conf</div></pre></td></tr></table></figure>
+<ol>
+<li>更新 CA 列表: </li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$update-ca-certificates</div></pre></td></tr></table></figure>
+<p>在Nodejs和Go中需要将证书读取并添加近请求头中随着请求一起发送</p>
+<p>GO中</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">certs, err := ioutil.ReadFile(filepath.Join(btcdHomeDir, <span class="string">"rpc.cert"</span>))</div><div class="line"></div><div class="line">connCfg := &amp;btcrpcclient.ConnConfig&#123;</div><div class="line">        Host:         <span class="string">"localhost:8334"</span>,</div><div class="line">        Endpoint:     <span class="string">"ws"</span>,</div><div class="line">        User:         <span class="string">"yourrpcuser"</span>,</div><div class="line">        Pass:         <span class="string">"yourrpcpass"</span>,</div><div class="line">        Certificates: certs,</div><div class="line">    &#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>Nodejs中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var cert = fs.readFileSync(&apos;/path/to/btcd/appdata/rpc.cert&apos;);</div><div class="line"></div><div class="line">var ws = new WebSocket(&apos;wss://127.0.0.1:8334/ws&apos;, &#123;</div><div class="line">  headers: &#123;</div><div class="line">    &apos;Authorization&apos;: &apos;Basic &apos;+new Buffer(user+&apos;:&apos;+password).toString(&apos;base64&apos;)</div><div class="line">  &#125;,</div><div class="line">  cert: cert,</div><div class="line">  ca: [cert]</div><div class="line">&#125;);</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="将证书添加到-cacerts-存储"><a href="#将证书添加到-cacerts-存储" class="headerlink" title="将证书添加到 cacerts 存储"></a>将证书添加到 cacerts 存储</h3><p>参考文章 <a href="https://www.azure.cn/documentation/articles/java-add-certificate-ca-store/" target="_blank" rel="external">将证书添加到 Java CA 证书存储</a></p>
+<ol>
+<li><p>然而在java中需要将证书颁发机构 (CA) 证书添加到 Java CA 证书 (cacerts) 存储。<br>在设置为 JDK 的 jdk\jre\lib\security 文件夹的命令提示符下，运行以下命令可查看将安装的证书：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -list -keystore cacerts</div></pre></td></tr></table></figure>
+</li>
+<li><p>系统将提示你输入存储密码。默认密码为 changeit。（如果您想要更改密码，请参阅 keytool 文档，网址为 <a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html。）" target="_blank" rel="external">http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html。）</a> 此示例假定 MD5 指纹为 67:CB:9D:C0:13:24:8A:82:9B:B2:17:1E:D1:1B:EC:D4 的证书未列出，并且你想要导入该证书（这是 Twilio API 服务所需的特定证书）。</p>
+</li>
+<li><p>获取 GeoTrust 根证书上列出的证书列表中的证书。右键单击序列号为 35:DE:F4:CF 的证书的链接，并将该证书保存到 jdk\jre\lib\security 文件夹。在此示例中，该证书已保存到名为 Equifax_Secure_Certificate_Authority.cer 的文件。<br>通过以下命令导入证书：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -keystore cacerts -importcert -alias equifaxsecureca -file Equifax_Secure_Certificate_Authority.cer</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>当系统提示信任此证书时，如果证书的 MD5 指纹为 67:CB:9D:C0:13:24:8A:82:9B:B2:17:1E:D1:1B:EC:D4，请通过键入 y 进行响应。</p>
+<ol>
+<li><p>运行以下命令可确保已成功导入 CA 证书：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -list -keystore cacerts</div></pre></td></tr></table></figure>
+</li>
+<li><p>压缩 JDK 并将其添加到 Azure 项目的 approot 文件夹。</p>
+</li>
+</ol>
+<p>有关 keytool 的信息，请参阅 <a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html。" target="_blank" rel="external">http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html。</a></p>
+<h3 id="意外的惊喜"><a href="#意外的惊喜" class="headerlink" title="意外的惊喜"></a>意外的惊喜</h3><p>当所有坑都趟完，不论是直接访问在线的API接口还是使用自己的RPC-Server，都可以很方便的获取区块链中的数据。我惊奇的发现在github上有个大牛封装了一套支持Java语言实现的基于HTTP协议的JSON-RPC接口，简直欣喜若狂，果断成为github的搬运工将其运转了起来目前来看效果良好并且省的自己再封装，值得学习。</p>
+<p><a href="http://btcd-cli4j.neemre.com" target="_blank" rel="external">btcd-cli4j</a></p>
+<p>使用心得下面慢慢在总结吧~ </p>
+<p>如果你觉得有帮助，欢迎鼓励我。</p>
+<p>Bitcoin: 1F4W7beHieYtubSc3ngrozWz5QkRMnMh4J<br>PPC: PRfRev7MLYdVyBtN8hpaBfPDcG558trjc8</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，记录点滴成长历程！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://oi0oc0w55.bkt.clouddn.com/wxpay.jpg" alt="Demontf WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://oi0oc0w55.bkt.clouddn.com/alipay.jpg" alt="Demontf Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+</div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bitcoin-blockchain/" rel="tag">#bitcoin,blockchain</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/11/bitcoinj-4/" rel="next" title="Bitcoin源码阅读笔记二">
+                <i class="fa fa-chevron-left"></i> Bitcoin源码阅读笔记二
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/07/txAnalysis-1/"
+           data-title="实现访问Bitcoin核心的JSON-RPC接口" data-url="http://demontf.github.io/2017/02/07/txAnalysis-1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Demontf" />
+          <p class="site-author-name" itemprop="name">Demontf</p>
+          <p class="site-description motion-element" itemprop="description">码代码、码论文、学英语</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1865129445" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/demontfx/" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-csdn"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Demontf" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element">
+            <div class="links-of-blogroll-title">
+              <i class="fa fa-globe fa-fw"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://funqc.github.io/" title="funqc" target="_blank">funqc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#比特币开发者的-API"><span class="nav-number">1.</span> <span class="nav-text">比特币开发者的 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行Bitcoin完全节点"><span class="nav-number">2.</span> <span class="nav-text">运行Bitcoin完全节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置开启RPC-Server"><span class="nav-number">3.</span> <span class="nav-text">配置开启RPC-Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问Client的实现"><span class="nav-number">4.</span> <span class="nav-text">访问Client的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将证书添加到-cacerts-存储"><span class="nav-number">5.</span> <span class="nav-text">将证书添加到 cacerts 存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#意外的惊喜"><span class="nav-number">6.</span> <span class="nav-text">意外的惊喜</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Demontf</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"demontf"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("b3zAXBgMOOSA7HOEx8Djil1S-gzGzoHsz", "9IK1jwgldxODqK4P3e5FGTEu");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
