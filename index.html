@@ -239,6 +239,153 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/24/bitcoinReRead/" itemprop="url">
+                  比特币白皮书Calculations解读
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-24T11:39:24+08:00" content="2017-03-24">
+              2017-03-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/区块链技术/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/24/bitcoinReRead/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/24/bitcoinReRead/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/24/bitcoinReRead/" class="leancloud_visitors" data-flag-title="比特币白皮书Calculations解读">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
+<p>首先先附上原文片段</p>
+<blockquote>
+<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain. Even if this is accomplished, it does not throw the system open to arbitrary changes, such as creating value out of thin air or taking money that never belonged to the attacker. Nodes are not going to accept an invalid transaction as payment, and honest nodes will never accept a block containing them. An attacker can only try to change one of his own transactions to take back money he recently spent.</p>
+<p>The race between the honest chain and an attacker chain can be characterized as a <strong>Binomial Random Walk</strong>. The success event is the honest chain being extended by one block, increasing its lead by +1, and the failure event is the attacker’s chain being extended by one block, reducing the gap by -1.</p>
+<p>The probability of an attacker catching up from a given deficit is analogous to a <strong>Gambler’s Ruin problem</strong>. Suppose a gambler with unlimited credit starts at a deficit and plays potentially an infinite number of trials to try to reach breakeven. We can calculate the probability he ever reaches breakeven, or that an attacker ever catches up with the honest chain, as follows [8]:</p>
+<blockquote>
+<p>p = probability an honest node finds the next block</p>
+<p>q = probability the attacker finds the next block</p>
+<p>\(q_z\)= probability the attacker will ever catch up from z blocks behind</p>
+</blockquote>
+</blockquote>
+<p>$$<br>q_z=<br> \begin{cases}<br>   1 &amp;\mbox{if $p\leq$q}\\<br>   \left(\frac{q}{p}\right)^z &amp;\mbox{if $p&gt;$q }<br>   \end{cases}<br>$$</p>
+<p>上面这个公式的来由作者用两个模型做出了类比，一个是<strong>二项随机游走</strong>（Binomial Random Walk）另外一个是<strong>赌徒破产问题</strong>（Gambler’s Ruin Problem)。那么接下来我们从这两个模型入手分析公式的来由。</p>
+<p>###赌徒破产模型</p>
+<p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
+<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+<p>设 \( \alpha, \beta. \)拼凑等比数列，使得，</p>
+<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/07/txAnalysis-1/" itemprop="url">
                   实现访问Bitcoin核心的JSON-RPC接口
                 </a>
@@ -978,7 +1125,7 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#58;&#x63;&#104;&#x65;&#110;&#103;&#x78;&#x75;&#101;&#x63;&#x63;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x63;&#104;&#x65;&#110;&#103;&#x78;&#x75;&#101;&#x63;&#x63;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a> </p>
+<p>本文作者：兔子精 <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#99;&#104;&#x65;&#x6e;&#x67;&#120;&#x75;&#x65;&#99;&#x63;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#99;&#104;&#x65;&#x6e;&#x67;&#120;&#x75;&#x65;&#99;&#x63;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
               阅读全文 &raquo;
@@ -1462,7 +1609,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

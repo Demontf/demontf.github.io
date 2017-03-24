@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, blockchain" />
+  <meta name="keywords" content="bitcoin," />
 
 
 
@@ -80,15 +80,25 @@
 
 
 
-<meta name="description" content="码代码、码论文、学英语">
-<meta property="og:type" content="website">
-<meta property="og:title" content="牛头梗和兔子精">
-<meta property="og:url" content="http://demontf.github.io/tags/bitcoinj/index.html">
+<meta name="description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。
+首先先附上原文片段
+
+We consider the scenario of an attacker trying to generate an alternate chain faster than t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比特币白皮书Calculations解读">
+<meta property="og:url" content="http://demontf.github.io/2017/03/24/bitcoinReRead/index.html">
 <meta property="og:site_name" content="牛头梗和兔子精">
-<meta property="og:description" content="码代码、码论文、学英语">
+<meta property="og:description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。
+首先先附上原文片段
+
+We consider the scenario of an attacker trying to generate an alternate chain faster than t">
+<meta property="og:updated_time" content="2017-03-24T07:53:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="牛头梗和兔子精">
-<meta name="twitter:description" content="码代码、码论文、学英语">
+<meta name="twitter:title" content="比特币白皮书Calculations解读">
+<meta name="twitter:description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。
+首先先附上原文片段
+
+We consider the scenario of an attacker trying to generate an alternate chain faster than t">
 
 
 
@@ -106,7 +116,7 @@
   };
 </script>
 
-  <title> 标签: bitcoinj | 牛头梗和兔子精 </title>
+  <title> 比特币白皮书Calculations解读 | 牛头梗和兔子精 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -137,7 +147,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -215,130 +225,194 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        bitcoinj
-        <small>标签</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/11/bitcoinj-4/" itemprop="url">
-              
-                <span itemprop="name">Bitcoin源码阅读笔记二</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-11T01:44:14+08:00"
-              content="2017-01-11" >
-          01-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/05/bitcoinj-3/" itemprop="url">
-              
-                <span itemprop="name">Bitcoinj源码阅读笔记一</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-05T20:45:45+08:00"
-              content="2017-01-05" >
-          01-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/11/bitcoinj-2/" itemprop="url">
-              
-                <span itemprop="name">Bitcoinj学习笔记之开始使用</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-11T23:45:45+08:00"
-              content="2016-12-11" >
-          12-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/11/bitcoinj-1/" itemprop="url">
-              
-                <span itemprop="name">Bitcoinj学习笔记之初识</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-11T22:54:56+08:00"
-              content="2016-12-11" >
-          12-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                比特币白皮书Calculations解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-24T11:39:24+08:00" content="2017-03-24">
+              2017-03-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/区块链技术/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/24/bitcoinReRead/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/24/bitcoinReRead/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/24/bitcoinReRead/" class="leancloud_visitors" data-flag-title="比特币白皮书Calculations解读">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
+<p>首先先附上原文片段</p>
+<blockquote>
+<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain. Even if this is accomplished, it does not throw the system open to arbitrary changes, such as creating value out of thin air or taking money that never belonged to the attacker. Nodes are not going to accept an invalid transaction as payment, and honest nodes will never accept a block containing them. An attacker can only try to change one of his own transactions to take back money he recently spent.</p>
+<p>The race between the honest chain and an attacker chain can be characterized as a <strong>Binomial Random Walk</strong>. The success event is the honest chain being extended by one block, increasing its lead by +1, and the failure event is the attacker’s chain being extended by one block, reducing the gap by -1.</p>
+<p>The probability of an attacker catching up from a given deficit is analogous to a <strong>Gambler’s Ruin problem</strong>. Suppose a gambler with unlimited credit starts at a deficit and plays potentially an infinite number of trials to try to reach breakeven. We can calculate the probability he ever reaches breakeven, or that an attacker ever catches up with the honest chain, as follows [8]:</p>
+<blockquote>
+<p>p = probability an honest node finds the next block</p>
+<p>q = probability the attacker finds the next block</p>
+<p>\(q_z\)= probability the attacker will ever catch up from z blocks behind</p>
+</blockquote>
+</blockquote>
+<p>$$<br>q_z=<br> \begin{cases}<br>   1 &amp;\mbox{if $p\leq$q}\\<br>   \left(\frac{q}{p}\right)^z &amp;\mbox{if $p&gt;$q }<br>   \end{cases}<br>$$</p>
+<p>上面这个公式的来由作者用两个模型做出了类比，一个是<strong>二项随机游走</strong>（Binomial Random Walk）另外一个是<strong>赌徒破产问题</strong>（Gambler’s Ruin Problem)。那么接下来我们从这两个模型入手分析公式的来由。</p>
+<p>###赌徒破产模型</p>
+<p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
+<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+<p>设 \( \alpha, \beta. \)拼凑等比数列，使得，</p>
+<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，记录点滴成长历程！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://oi0oc0w55.bkt.clouddn.com/wxpay.jpg" alt="Demontf WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://oi0oc0w55.bkt.clouddn.com/alipay.jpg" alt="Demontf Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+</div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bitcoin/" rel="tag">#bitcoin</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/07/txAnalysis-1/" rel="next" title="实现访问Bitcoin核心的JSON-RPC接口">
+                <i class="fa fa-chevron-left"></i> 实现访问Bitcoin核心的JSON-RPC接口
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -346,6 +420,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/24/bitcoinReRead/"
+           data-title="比特币白皮书Calculations解读" data-url="http://demontf.github.io/2017/03/24/bitcoinReRead/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -365,8 +447,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -459,6 +550,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -555,6 +657,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
