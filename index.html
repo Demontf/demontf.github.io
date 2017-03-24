@@ -318,7 +318,9 @@
       
         
           
-            <p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
 <p>首先先附上原文片段</p>
 <blockquote>
 <p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain. Even if this is accomplished, it does not throw the system open to arbitrary changes, such as creating value out of thin air or taking money that never belonged to the attacker. Nodes are not going to accept an invalid transaction as payment, and honest nodes will never accept a block containing them. An attacker can only try to change one of his own transactions to take back money he recently spent.</p>
@@ -332,11 +334,27 @@
 </blockquote>
 <p>$$<br>q_z=<br> \begin{cases}<br>   1 &amp;\mbox{if $p\leq$q}\\<br>   \left(\frac{q}{p}\right)^z &amp;\mbox{if $p&gt;$q }<br>   \end{cases}<br>$$</p>
 <p>上面这个公式的来由作者用两个模型做出了类比，一个是<strong>二项随机游走</strong>（Binomial Random Walk）另外一个是<strong>赌徒破产问题</strong>（Gambler’s Ruin Problem)。那么接下来我们从这两个模型入手分析公式的来由。</p>
-<p>###赌徒破产模型</p>
-<p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
-<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+<h3 id="赌徒破产模型"><a href="#赌徒破产模型" class="headerlink" title="赌徒破产模型"></a>赌徒破产模型</h3><h4 id="二阶线性递归"><a href="#二阶线性递归" class="headerlink" title="二阶线性递归"></a>二阶线性递归</h4><p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
+<p>$$ a_n = pa_{n-1} + qa_{n-2} $$</p>
 <p>设 \( \alpha, \beta. \)拼凑等比数列，使得，</p>
-<p>$$ a<em>n = pa</em>{n-1} + qa_{n-2} $$</p>
+<p>$$<br>\begin {aligned}<br>a_n = pa_{n-1} + qa_{n-2} \\<br>a_n = (\alpha+\beta)a_{n-1}-\alpha\beta a_{n-2} \<br>\end {aligned}<br>$$<br>所以，<br>$$<br>\begin{cases}<br>   \alpha+\beta=p \\<br>   \alpha\beta=q<br>   \end{cases}<br>$$<br>若  \( \alpha\not=\beta. \)则</p>
+<p>$$ a_n - \alpha a_{n-1}=\beta^{n-2}(a_2-\alpha a_1) $$</p>
+<p>又由于\(\alpha,\beta 具有对称性\)<br>$$<br>\begin{cases}<br>   \beta a_n - \alpha\beta a_{n-1}=\beta^{n-1}(a_2-\alpha a_1) \\<br>   \alpha a_n - \beta a_{n-1}=\alpha^{n-1}(a_2-\beta a_1)<br>   \end{cases}<br>$$</p>
+<p>解得，<br>$$ a_n=\frac{a_2-\alpha a_1}{\beta(\beta-\alpha)}\beta^n +  \frac{a_2-\beta a_1}{\alpha(\alpha-\beta)}\alpha^n $$</p>
+<p>从上面的式子可以发现特征根法的结果为：</p>
+<p>$$ a_n=A\alpha^n + B\beta^n$$</p>
+<p>其中A，B可以带入两个特殊值求解出，例如\(a_1,a_2。\alpha,\beta\)则为递推公式\(a_n=pa_{n-1}+qa_{n-2}\)对应特征方程\(x^2=px+q\)的两个根。</p>
+<h4 id="赌徒模型"><a href="#赌徒模型" class="headerlink" title="赌徒模型"></a>赌徒模型</h4><p><strong>此时我们引入赌徒破产问题</strong>，假设游戏中赌徒有\(\alpha \)的概率赢得一元，\(1-\alpha \)的概率输掉一元。现在赌徒拥有h元,他的目标是N元，当他成功赢到N元(即手里的前变为N)或者输光已有的h元（手头钱为0）则游戏结束。P(N|h)可以表示赌徒拥有h元赢到N的概率。明显有两个值我们可以求解得P(N|0)=0, P(N|N)=1.</p>
+<p>当赌徒拥有h元时，那么下一轮的状态有\(\alpha \)的概率是h+1或者\(1-\alpha \)的概率是h-1。因此当前胜利的概率可以用下一状态的两种可能的和表示。</p>
+<p>$$ P(N|h) = \alpha P(N|h+1)+(1-\alpha)P(N|h-1) $$<br>这边构成了一个二阶线性递归，根据上面的知识我们知道特征多项式为<br>$$ x^2 - \frac{1}{\alpha}x + \frac{1-\alpha}{\alpha}=0$$<br>很容易的出上面方程的两个根是1和\(r=\frac{1-\alpha}{\alpha}\).所以，<br>$$P(N|h)=A(1)^h+B(r)^h$$<br>带入P(N|0)=0, P(N|N)=1可解得<br>$$<br>\begin{cases}<br>  A+B=0 \\<br>  A+B(r)^N = 1<br> \end{cases}<br>$$</p>
+<p>$$<br>\begin{cases}<br>  A=\frac{1}{1-r^N} \\<br>  B=\frac{-1}{1-r^N}<br>\end{cases}<br>$$</p>
+<p>所以，当赌徒拥有h元最终获得N的概率为<br>$$<br>    P(N|h) = \frac{1-r^h}{1-r^N}<br>$$</p>
+<h4 id="建模解决问题"><a href="#建模解决问题" class="headerlink" title="建模解决问题"></a>建模解决问题</h4><p>论文中的问题如果用赌徒破产模型建模的话可以从两个方面着手，一个是诚实节点拥有z个块，目标是输完最终拥有0个块（也就是攻击节点追上z个）可以用P(0|z)表示这一概率。</p>
+<p>参考上面的模型，此时\(\alpha\)=q(攻击者发现块的概率)</p>
+<p>$$ P(0|z)=\alpha P(0|z-1)+(1-\alpha)p(0|z+1)$$<br>解得，<br>$$<br>    \begin{cases}<br>    x_1=1 \\<br>    x_2=\frac{\alpha}{1-\alpha} = r<br>    \end{cases}<br>$$</p>
+<p>$$P(0|z)=A(1)^z+B(r)^z$$<br>此时我们需要带入两个点求得A,B。 P(0|0)和\(P(0|\infty)\)是两个容易发现的边界点。因为\(r^z\)的单调性不一致需要分类讨论。<br>当0&lt;r&lt;1, \(0&lt;\alpha&lt;\frac{1}{2}\)时，<br>$$<br>    \begin{cases}<br>    A+B=0 \\<br>    A=0<br>    \end{cases}<br>$$<br>所以，B=1,P(0|z)=\((\frac{\alpha}{1-\alpha})^z = (\frac{q}{p})^z\)</p>
+<p>当 \(r\geq 1, \alpha \geq\frac{1}{2}\)时<br>$$<br>    \begin{cases}<br>    A+B=1 \\<br>    A+\infty=0<br>    \end{cases}<br>$$</p>
+<p>所以 P(0|z)=1.当然，从攻击者的角度来求解也是可以的即求解P(z|0),过程与上述类似。</p>
 
           
         
@@ -1125,7 +1143,7 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#99;&#104;&#x65;&#x6e;&#x67;&#120;&#x75;&#x65;&#99;&#x63;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#99;&#104;&#x65;&#x6e;&#x67;&#120;&#x75;&#x65;&#99;&#x63;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a> </p>
+<p>本文作者：兔子精 <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#x68;&#x65;&#110;&#x67;&#120;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;">&#99;&#x68;&#x65;&#110;&#x67;&#120;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
               阅读全文 &raquo;
