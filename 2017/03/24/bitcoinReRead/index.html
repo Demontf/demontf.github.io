@@ -92,7 +92,7 @@ We consider the scenario of an attacker trying to generate an alternate chain fa
 首先先附上原文片段
 
 We consider the scenario of an attacker trying to generate an alternate chain faster than t">
-<meta property="og:updated_time" content="2017-04-07T11:16:33.000Z">
+<meta property="og:updated_time" content="2017-04-07T11:52:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比特币白皮书Calculations解读">
 <meta name="twitter:description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。
@@ -333,6 +333,7 @@ We consider the scenario of an attacker trying to generate an alternate chain fa
 <p>\(q_z\)= probability the attacker will ever catch up from z blocks behind</p>
 </blockquote>
 </blockquote>
+<a id="more"></a>
 <p>$$<br>q_z=<br> \begin{cases}<br>   1 &amp;\mbox{if $p\leq$q}\\<br>   \left(\frac{q}{p}\right)^z &amp;\mbox{if $p&gt;$q }<br>   \end{cases}<br>$$</p>
 <p>上面这个公式的来由作者用两个模型做出了类比，一个是<strong>二项随机游走</strong>（Binomial Random Walk）另外一个是<strong>赌徒破产问题</strong>（Gambler’s Ruin Problem)。那么接下来我们从这两个模型入手分析公式的来由。</p>
 <h3 id="赌徒破产模型"><a href="#赌徒破产模型" class="headerlink" title="赌徒破产模型"></a>赌徒破产模型</h3><h4 id="二阶线性递归"><a href="#二阶线性递归" class="headerlink" title="二阶线性递归"></a>二阶线性递归</h4><p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
