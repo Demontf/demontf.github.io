@@ -239,6 +239,142 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/07/entropy/" itemprop="url">
+                  基于条件熵的聚类评估方法Homogeneity和Completeness
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-04-07T18:01:23+08:00" content="2017-04-07">
+              2017-04-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数学/" itemprop="url" rel="index">
+                    <span itemprop="name">数学</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/07/entropy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/07/entropy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/04/07/entropy/" class="leancloud_visitors" data-flag-title="基于条件熵的聚类评估方法Homogeneity和Completeness">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<h4 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h4><p>1948年香农（Claude Shannon）在“通信的数学原理”中提出了信息上的概念。实质上是使用比特（Bit）来度量信息量，在计算中一个字节是8个比特。信息量的比特数和所有可能情况的对数函数log有关，例如一个事情有32中情况那么他的信息熵为log32 = 5。</p>
+<p>一般，由于不同情况的发生概率不相同的所以香农指出准确的信息量H应该为 </p>
+<p>$$  H = -(p_1<em>logp_1 + p_2</em>logp_2+…+p_32*logp_32) $$</p>
+<p>信息熵的定义如下：<br>    H(X) = -\sum_{x\inX}P(x)logP(x)</p>
+<p>假定X和Y是两个随机变量，X使我们需要了解的。如果我们知道了X的随机分布P(X)，也就知道了X的熵。但如果我们只知道一些Y的情况，Y与X一起出现的概率也就是他们的联合概率分布（JointProbability），以及Y发生下X发生的概率即条件概率分布。定义在Y的条件下的条件熵为：</p>
+<pre><code>$$ H(X|Y) = -\sum\_{x\inX,y\inY}P(x,y)logP(x|y) $$
+</code></pre>
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/24/bitcoinReRead/" itemprop="url">
                   比特币白皮书Calculations解读
                 </a>
@@ -318,9 +454,7 @@
       
         
           
-            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
-<p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
+            <p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
 <p>首先先附上原文片段</p>
 <blockquote>
 <p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain. Even if this is accomplished, it does not throw the system open to arbitrary changes, such as creating value out of thin air or taking money that never belonged to the attacker. Nodes are not going to accept an invalid transaction as payment, and honest nodes will never accept a block containing them. An attacker can only try to change one of his own transactions to take back money he recently spent.</p>
@@ -1143,7 +1277,7 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#99;&#x68;&#x65;&#110;&#x67;&#120;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;">&#99;&#x68;&#x65;&#110;&#x67;&#120;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;</a> </p>
+<p>本文作者：兔子精 <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#99;&#x68;&#x65;&#x6e;&#103;&#120;&#117;&#x65;&#99;&#x63;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;">&#99;&#x68;&#x65;&#x6e;&#103;&#120;&#117;&#x65;&#99;&#x63;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#109;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
               阅读全文 &raquo;
@@ -1447,148 +1581,13 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/23/cahier/" itemprop="url">
-                  全球人工智能技术大会-会议笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-23T11:14:30+08:00" content="2016-04-23">
-              2016-04-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/23/cahier/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/23/cahier/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/04/23/cahier/" class="leancloud_visitors" data-flag-title="全球人工智能技术大会-会议笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="2016全球人工智能技术大会"><a href="#2016全球人工智能技术大会" class="headerlink" title="2016全球人工智能技术大会"></a>2016全球人工智能技术大会</h1><p><em>开会地点：北京国家会议中心</em><br><em>开会时间：2016.4.23</em></p>
-<blockquote>
-<p>演讲嘉宾</p>
-</blockquote>
-<ul>
-<li>芮勇 微软亚洲研究院常务副院长</li>
-<li>杨强</li>
-<li>Marc Hamilton NVIDIA 工程架构副总裁</li>
-<li>张代君  三星电子中国研究院院长
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/23/cahier/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1627,7 +1626,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1635,7 +1634,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1644,7 +1643,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
