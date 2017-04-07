@@ -90,7 +90,7 @@
 <meta property="og:description" content="信息熵 (Entropy)1948年香农（Claude Shannon）在“通信的数学原理”中提出了信息上的概念。实质上是使用比特（Bit）来度量信息量，在计算中一个字节是8个比特。信息量的比特数和所有可能情况的对数函数log有关，例如一个事情有32中情况那么他的信息熵为log32 = 5。
 一般，由于不同情况的发生概率不相同的所以香农指出准确的信息量H的计算公式参考下面信息熵的定义。
 信息熵">
-<meta property="og:updated_time" content="2017-04-07T13:43:35.000Z">
+<meta property="og:updated_time" content="2017-04-07T13:45:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于条件熵的聚类评估方法Homogeneity和Completeness">
 <meta name="twitter:description" content="信息熵 (Entropy)1948年香农（Claude Shannon）在“通信的数学原理”中提出了信息上的概念。实质上是使用比特（Bit）来度量信息量，在计算中一个字节是8个比特。信息量的比特数和所有可能情况的对数函数log有关，例如一个事情有32中情况那么他的信息熵为log32 = 5。
@@ -343,8 +343,8 @@
 <p>$$ H(C,K) = -\sum_{k=1}^{|K|}\sum_{c=1}^{|C|}\frac{A_{ck}}{N}log\frac{A_{ck}}{N} $$</p>
 <p>$$ H(K|C) = -\sum_{c=1}^{|C|}\sum_{k=1}^{|K|}\frac{A_{ck}}{N}log\frac{A_{ck}}{\sum_{k=1}^{|K|}A_{ck}} $$</p>
 <p>$$ H(K,C) = H(C,K) $$</p>
-<p>最终，我们计算V-measure通过给予h和c不同的权重。其中\(\beta 大于1时completeness影响更大\)</p>
-<p>$$ V_{\beta} = \frac{(1+\beta)<em>h</em>c}{(\beta * h)+c} $$ </p>
+<p>最终，我们计算V-measure通过给予h和c不同的权重。其中b大于1时completeness影响更大</p>
+<p>$$ V_b = \frac{(1+b)<em>h</em>c}{(b * h)+c} $$ </p>
 <p>参考：</p>
 <ul>
 <li>《数学之美》第二版 吴军著</li>
