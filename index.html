@@ -320,12 +320,16 @@
           
             <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 
-<h4 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h4><p>1948年香农（Claude Shannon）在“通信的数学原理”中提出了信息上的概念。实质上是使用比特（Bit）来度量信息量，在计算中一个字节是8个比特。信息量的比特数和所有可能情况的对数函数log有关，例如一个事情有32中情况那么他的信息熵为log32 = 5。</p>
-<p>一般，由于不同情况的发生概率不相同的所以香农指出准确的信息量H应该为 </p>
-<p>$$  H = -(p<em>{1}*p\</em>{2}) $$</p>
+<h4 id="信息熵-Entropy"><a href="#信息熵-Entropy" class="headerlink" title="信息熵 (Entropy)"></a>信息熵 (Entropy)</h4><p>1948年香农（Claude Shannon）在“通信的数学原理”中提出了信息上的概念。实质上是使用比特（Bit）来度量信息量，在计算中一个字节是8个比特。信息量的比特数和所有可能情况的对数函数log有关，例如一个事情有32中情况那么他的信息熵为log32 = 5。</p>
+<p>一般，由于不同情况的发生概率不相同的所以香农指出准确的信息量H的计算公式参考下面信息熵的定义。</p>
 <p>信息熵的定义如下：<br>$$    H(X) = -\sum_{x\in{X}}P(x)logP(x) $$</p>
-<p>假定X和Y是两个随机变量，X使我们需要了解的。如果我们知道了X的随机分布P(X)，也就知道了X的熵。但如果我们只知道一些Y的情况，Y与X一起出现的概率也就是他们的联合概率分布（JointProbability），以及Y发生下X发生的概率即条件概率分布。定义在Y的条件下的条件熵为：</p>
+<h4 id="条件熵-Conditional-Entropy"><a href="#条件熵-Conditional-Entropy" class="headerlink" title="条件熵 (Conditional Entropy)"></a>条件熵 (Conditional Entropy)</h4><p>假定X和Y是两个随机变量，X使我们需要了解的。如果我们知道了X的随机分布P(X)，也就知道了X的熵。但如果我们只知道一些Y的情况，Y与X一起出现的概率也就是他们的联合概率分布（JointProbability），以及Y发生下X发生的概率即条件概率分布。定义在Y的条件下的条件熵为：</p>
 <p>$$ H(X|Y) = -\sum_{x\in{X},y\in{Y}}P(x,y)logP(x|y) $$</p>
+<h4 id="互信息-Mutual-Information"><a href="#互信息-Mutual-Information" class="headerlink" title="互信息 (Mutual Information)"></a>互信息 (Mutual Information)</h4><p>互信息是一个取值在0到min(H(X),H(Y))之间的函数，用来表明X与Y的相关性。当二者<strong>完全相关</strong>取值为1，<strong>完全无关</strong>取值为0。互信息定义如下：</p>
+<p>$$ I(X;Y) = -\sum_{x\in{X},y\in{Y}}P(x,y)log\frac{P(x,y)}{P(x)P(y)} $$</p>
+<p>$$ I(X;Y) = H(X) - H(X|Y) $$</p>
+<h4 id="相对熵-Relative-Entropy"><a href="#相对熵-Relative-Entropy" class="headerlink" title="相对熵 (Relative Entropy)"></a>相对熵 (Relative Entropy)</h4><p>相对熵又名交叉熵，同互信息一样也是用来衡量相关性，但和<strong>变量</strong>的互信息不同，主要是衡量取值为正数的两个函数的相似性，定义如下：</p>
+<p>$$ KL(f(x)||g(x)) = -\sum_{x\in{X}}f(x)*log\frac{f(x)}{g(x)} $$</p>
 
           
         
@@ -1277,7 +1281,7 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x63;&#104;&#101;&#x6e;&#x67;&#120;&#x75;&#101;&#99;&#x63;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;">&#x63;&#104;&#101;&#x6e;&#x67;&#120;&#x75;&#101;&#99;&#x63;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#109;</a> </p>
+<p>本文作者：兔子精 <a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x63;&#x68;&#x65;&#x6e;&#103;&#x78;&#117;&#x65;&#x63;&#99;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;">&#x63;&#x68;&#x65;&#x6e;&#103;&#x78;&#117;&#x65;&#x63;&#99;&#64;&#x71;&#x71;&#x2e;&#99;&#x6f;&#x6d;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
               阅读全文 &raquo;
