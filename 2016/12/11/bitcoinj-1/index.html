@@ -81,11 +81,13 @@
 
 
 <meta name="description" content="BitcoinJ研究区块链，看了很多论文，我会将我理解的点滴记录在这里。当然论文与coding是完全分不开的，今天开始分享一下我看bitcoinj的笔记以及一些翻译。Bitcoin官网在这里,里面有很完整的文档已经很活跃的社区，现有很多Bitcoin App就是基于bitcoinj的。">
+<meta name="keywords" content="bitcoinj">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bitcoinj学习笔记之初识">
 <meta property="og:url" content="http://demontf.github.io/2016/12/11/bitcoinj-1/index.html">
-<meta property="og:site_name" content="牛头梗和兔子精">
+<meta property="og:site_name" content="退休的神">
 <meta property="og:description" content="BitcoinJ研究区块链，看了很多论文，我会将我理解的点滴记录在这里。当然论文与coding是完全分不开的，今天开始分享一下我看bitcoinj的笔记以及一些翻译。Bitcoin官网在这里,里面有很完整的文档已经很活跃的社区，现有很多Bitcoin App就是基于bitcoinj的。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-12-12T00:41:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bitcoinj学习笔记之初识">
@@ -107,7 +109,7 @@
   };
 </script>
 
-  <title> Bitcoinj学习笔记之初识 | 牛头梗和兔子精 </title>
+  <title> Bitcoinj学习笔记之初识 | 退休的神 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -148,7 +150,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">牛头梗和兔子精</span>
+      <span class="site-title">退休的神</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -249,7 +251,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-11T22:54:56+08:00" content="2016-12-11">
+            <time itemprop="dateCreated" datetime="2016-12-11T22:54:56-07:00" content="2016-12-11">
               2016-12-11
             </time>
           </span>
@@ -312,7 +314,7 @@
       
 
       
-        <h3 id="BitcoinJ"><a href="#BitcoinJ" class="headerlink" title="BitcoinJ"></a>BitcoinJ</h3><p>研究区块链，看了很多论文，我会将我理解的点滴记录在这里。当然论文与coding是完全分不开的，今天开始分享一下我看bitcoinj的笔记以及一些翻译。<br>Bitcoin官网在<a href="https://bitcoinj.github.io/" target="_blank" rel="external"><strong>这里</strong></a>,里面有很完整的文档已经很活跃的<a href="https://bitcoinj.github.io/#community" target="_blank" rel="external">社区</a>，现有很多Bitcoin App就是基于bitcoinj的。<br><a id="more"></a></p>
+        <h3 id="BitcoinJ"><a href="#BitcoinJ" class="headerlink" title="BitcoinJ"></a>BitcoinJ</h3><p>研究区块链，看了很多论文，我会将我理解的点滴记录在这里。当然论文与coding是完全分不开的，今天开始分享一下我看bitcoinj的笔记以及一些翻译。<br>Bitcoin官网在<a href="https://bitcoinj.github.io/" target="_blank" rel="noopener"><strong>这里</strong></a>,里面有很完整的文档已经很活跃的<a href="https://bitcoinj.github.io/#community" target="_blank" rel="noopener">社区</a>，现有很多Bitcoin App就是基于bitcoinj的。<br><a id="more"></a></p>
 <h4 id="1-什么是bitcoinj"><a href="#1-什么是bitcoinj" class="headerlink" title="1.什么是bitcoinj"></a>1.什么是bitcoinj</h4><hr>
 <p>这是一个支持比特币协议的java库。它支持钱包功能，可以不需要本地拥有比特币核心代码就可以发送或接受交易，还有很多其他新的特性。bitcoinj是由java实现但其他JVM兼容的语言也可以使用，例如python、JavaScript。</p>
 <h4 id="2-特性"><a href="#2-特性" class="headerlink" title="2.特性"></a>2.特性</h4><hr>
@@ -323,7 +325,7 @@
 <p><strong>实验性的全验证模式</strong>和进行和比特币源码一样的验证工作。在这个模式中，计算为花费的交易输出集存储在PostgreSQL中。</p>
 <p>支持<strong>微支付通道</strong>，可以在客户端与服务器端建立多签名协议，然后在通道上进行协商允许快速微支付以避免矿工的费用。</p>
 <h4 id="3-开始使用"><a href="#3-开始使用" class="headerlink" title="3.开始使用"></a>3.开始使用</h4><hr>
-<p>1.下载<a href="https://search.maven.org/remotecontent?filepath=org/bitcoinj/bitcoinj-core/0.14.3/bitcoinj-core-0.14.3-bundled.jar" target="_blank" rel="external">JAR包</a>或者使用Maven和Gradle，也可以直接从<a href="https://github.com/bitcoinj/bitcoinj" target="_blank" rel="external">github</a>上下载代码<br>2.阅读中本聪写的<a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="external">白皮书</a>，了解比特币的基本工作原理、交易结构以及区块链。</p>
+<p>1.下载<a href="https://search.maven.org/remotecontent?filepath=org/bitcoinj/bitcoinj-core/0.14.3/bitcoinj-core-0.14.3-bundled.jar" target="_blank" rel="noopener">JAR包</a>或者使用Maven和Gradle，也可以直接从<a href="https://github.com/bitcoinj/bitcoinj" target="_blank" rel="noopener">github</a>上下载代码<br>2.阅读中本聪写的<a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">白皮书</a>，了解比特币的基本工作原理、交易结构以及区块链。</p>
 
       
     </div>
@@ -456,7 +458,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -473,7 +475,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
