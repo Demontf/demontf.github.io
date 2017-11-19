@@ -240,6 +240,143 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/18/hyperledgerfabric01/" itemprop="url">
+                  Hyperledger Fabric 容器部署以及chaincode测试(BYFN)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-11-18T17:14:06-07:00" content="2017-11-18">
+              2017-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/区块链技术/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/18/hyperledgerfabric01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/18/hyperledgerfabric01/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/11/18/hyperledgerfabric01/" class="leancloud_visitors" data-flag-title="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件：</p>
+<p><strong>Docker</strong> 可以从<a href="https://www.docker.com/get-docker" target="_blank" rel="noopener">小鲸鱼官网</a>下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 <em>docker –version</em> 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 <em>docker-compose –version</em>来检查是否安装正常。</p>
+<p>目前fabric主要支持两种语言<strong>Go</strong>和<strong>NodeJS</strong>, 这两个语言的安装及配置可以参看(Go programing language)[<a href="https://golang.org/" target="_blank" rel="noopener">https://golang.org/</a>] 和 (Node.js)[<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a>]</p>
+<p><strong>Hyperledger Fabric Samples</strong>是由官方给出的一个示例集合，包含好几个不同拓扑结构的fabric样例以及不同功能的chaincode源码，为我们学习的提供了很好的参考。获取方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b master https://github.com/hyperledger/fabric-samples.git</span><br></pre></td></tr></table></figure>
+<p>最后一步准备工作是需要下载Fabric平台所需的binaries文件，包括<strong>cryptogen</strong>,<strong>configtxgen</strong>,<strong>configtxlator</strong>, 和<strong>peer</strong>这些工具不仅可以配合Samples使用，还可以提供很多方便强大的功能有机会在介绍，下载方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://goo.gl/fMh2s3 | bash</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/11/18/hyperledgerfabric01/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/18/hyperledgerInfo/" itemprop="url">
                   hyperledger是什么
                 </a>
@@ -1387,150 +1524,9 @@
       
         
           <h3 id="卓越的投资者每早都在读什么？"><a href="#卓越的投资者每早都在读什么？" class="headerlink" title="卓越的投资者每早都在读什么？"></a>卓越的投资者每早都在读什么？</h3><p>本文参考 <a href="http://www.ramenprofitable.co/what-do-elite-venture-investors-read-every-morning/" target="_blank" rel="noopener">What do Elite Venture Investors Read Every Morning?</a> —— by Joe Hovde</p>
-<p>本文作者：兔子精 <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x63;&#x68;&#x65;&#110;&#103;&#120;&#x75;&#101;&#x63;&#99;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;">&#x63;&#x68;&#x65;&#110;&#103;&#120;&#x75;&#101;&#x63;&#99;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a> </p>
+<p>本文作者：兔子精 <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#x68;&#101;&#x6e;&#x67;&#x78;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;">&#x63;&#x68;&#101;&#x6e;&#x67;&#x78;&#x75;&#x65;&#x63;&#99;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;</a> </p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/12/12/investment1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/11/bitcoinj-2/" itemprop="url">
-                  Bitcoinj学习笔记之开始使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-11T23:45:45-07:00" content="2016-12-11">
-              2016-12-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/区块链技术/" itemprop="url" rel="index">
-                    <span itemprop="name">区块链技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/11/bitcoinj-2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/11/bitcoinj-2/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/11/bitcoinj-2/" class="leancloud_visitors" data-flag-title="Bitcoinj学习笔记之开始使用">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Java版-Bitcoin"><a href="#Java版-Bitcoin" class="headerlink" title="Java版 Bitcoin"></a>Java版 Bitcoin</h3><p>bitcoinj支持java版和JavaScript版，本文讲解的是java版的相关细节。本文参考bitcoinj<a href="https://bitcoinj.github.io/getting-started-java" target="_blank" rel="noopener">官方文档</a></p>
-<h4 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1.基本结构"></a>1.基本结构</h4><hr>
-<p>bitcoinj主要使用的对象</p>
-<ul>
-<li><strong>NetworkParameters</strong> 选择生产或测试环境网络 </li>
-<li><strong>Wallet</strong> 用于存储<strong>ECKey</strong>以及其他数据</li>
-<li><strong>PeerGroup</strong>管理网络链接</li>
-<li><strong>BLockChain</strong>管理共享的、全局的数据结构</li>
-<li><strong>BlockStore</strong>保存区块链上的数据结构，如光盘一样</li>
-<li><strong>WalletEventListener</strong> 接收钱包事件</li>
-<li><strong>WalletAppKit</strong>可以方便的创建和使用上面几个对象
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/11/bitcoinj-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1605,7 +1601,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

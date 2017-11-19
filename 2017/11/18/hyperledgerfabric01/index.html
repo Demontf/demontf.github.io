@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="bitcoin," />
+  <meta name="keywords" content="hyperledger," />
 
 
 
@@ -80,18 +80,18 @@
 
 
 
-<meta name="description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。 首先先附上原文片段  We consider the scenario of an attacker trying to g">
-<meta name="keywords" content="bitcoin">
+<meta name="description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker –version 命令测试是否正常。此次安装还自动添加了一个docker的工具do">
+<meta name="keywords" content="hyperledger">
 <meta property="og:type" content="article">
-<meta property="og:title" content="比特币白皮书Calculations解读">
-<meta property="og:url" content="http://demontf.github.io/2017/03/24/bitcoinReRead/index.html">
+<meta property="og:title" content="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
+<meta property="og:url" content="http://demontf.github.io/2017/11/18/hyperledgerfabric01/index.html">
 <meta property="og:site_name" content="退休的神">
-<meta property="og:description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。 首先先附上原文片段  We consider the scenario of an attacker trying to generate an alternate chain faster than t">
+<meta property="og:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker –version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 d">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-04-07T11:52:56.000Z">
+<meta property="og:updated_time" content="2017-11-19T01:19:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="比特币白皮书Calculations解读">
-<meta name="twitter:description" content="今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。 首先先附上原文片段  We consider the scenario of an attacker trying to generate an alternate chain faster than t">
+<meta name="twitter:title" content="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
+<meta name="twitter:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker –version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 d">
 
 
 
@@ -109,7 +109,7 @@
   };
 </script>
 
-  <title> 比特币白皮书Calculations解读 | 退休的神 </title>
+  <title> Hyperledger Fabric 容器部署以及chaincode测试(BYFN) | 退休的神 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -239,7 +239,7 @@
             
             
               
-                比特币白皮书Calculations解读
+                Hyperledger Fabric 容器部署以及chaincode测试(BYFN)
               
             
           </h1>
@@ -251,8 +251,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-24T11:39:24-07:00" content="2017-03-24">
-              2017-03-24
+            <time itemprop="dateCreated" datetime="2017-11-18T17:14:06-07:00" content="2017-11-18">
+              2017-11-18
             </time>
           </span>
 
@@ -281,8 +281,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/03/24/bitcoinReRead/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/24/bitcoinReRead/" itemprop="commentsCount"></span>
+                <a href="/2017/11/18/hyperledgerfabric01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/18/hyperledgerfabric01/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -292,7 +292,7 @@
 
           
           
-             <span id="/2017/03/24/bitcoinReRead/" class="leancloud_visitors" data-flag-title="比特币白皮书Calculations解读">
+             <span id="/2017/11/18/hyperledgerfabric01/" class="leancloud_visitors" data-flag-title="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -314,42 +314,30 @@
       
 
       
-        <p>今天给别人分享比特币白皮书时才发现，第11小结Calculations部分当时并没有仔细理解消化，中间还有很多知识点值得仔细研究，虽然现在还是有几处没有吃透的地方，但先记录下来希望大家讨论解决。</p>
-<p>首先先附上原文片段</p>
-<blockquote>
-<p>We consider the scenario of an attacker trying to generate an alternate chain faster than the honest chain. Even if this is accomplished, it does not throw the system open to arbitrary changes, such as creating value out of thin air or taking money that never belonged to the attacker. Nodes are not going to accept an invalid transaction as payment, and honest nodes will never accept a block containing them. An attacker can only try to change one of his own transactions to take back money he recently spent.</p>
-<p>The race between the honest chain and an attacker chain can be characterized as a <strong>Binomial Random Walk</strong>. The success event is the honest chain being extended by one block, increasing its lead by +1, and the failure event is the attacker’s chain being extended by one block, reducing the gap by -1.</p>
-<p>The probability of an attacker catching up from a given deficit is analogous to a <strong>Gambler’s Ruin problem</strong>. Suppose a gambler with unlimited credit starts at a deficit and plays potentially an infinite number of trials to try to reach breakeven. We can calculate the probability he ever reaches breakeven, or that an attacker ever catches up with the honest chain, as follows [8]:</p>
-<blockquote>
-<p>p = probability an honest node finds the next block</p>
-<p>q = probability the attacker finds the next block</p>
-<p>\(q_z\)= probability the attacker will ever catch up from z blocks behind</p>
-</blockquote>
-</blockquote>
+        <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件：</p>
+<p><strong>Docker</strong> 可以从<a href="https://www.docker.com/get-docker" target="_blank" rel="noopener">小鲸鱼官网</a>下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 <em>docker –version</em> 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 <em>docker-compose –version</em>来检查是否安装正常。</p>
+<p>目前fabric主要支持两种语言<strong>Go</strong>和<strong>NodeJS</strong>, 这两个语言的安装及配置可以参看(Go programing language)[<a href="https://golang.org/" target="_blank" rel="noopener">https://golang.org/</a>] 和 (Node.js)[<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a>]</p>
+<p><strong>Hyperledger Fabric Samples</strong>是由官方给出的一个示例集合，包含好几个不同拓扑结构的fabric样例以及不同功能的chaincode源码，为我们学习的提供了很好的参考。获取方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b master https://github.com/hyperledger/fabric-samples.git</span><br></pre></td></tr></table></figure>
+<p>最后一步准备工作是需要下载Fabric平台所需的binaries文件，包括<strong>cryptogen</strong>,<strong>configtxgen</strong>,<strong>configtxlator</strong>, 和<strong>peer</strong>这些工具不仅可以配合Samples使用，还可以提供很多方便强大的功能有机会在介绍，下载方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://goo.gl/fMh2s3 | bash</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>$$<br>q_z=<br> \begin{cases}<br>   1 &amp;\mbox{if $p\leq$q}\\<br>   \left(\frac{q}{p}\right)^z &amp;\mbox{if $p&gt;$q }<br>   \end{cases}<br>$$</p>
-<p>上面这个公式的来由作者用两个模型做出了类比，一个是<strong>二项随机游走</strong>（Binomial Random Walk）另外一个是<strong>赌徒破产问题</strong>（Gambler’s Ruin Problem)。那么接下来我们从这两个模型入手分析公式的来由。</p>
-<h3 id="赌徒破产模型"><a href="#赌徒破产模型" class="headerlink" title="赌徒破产模型"></a>赌徒破产模型</h3><h4 id="二阶线性递归"><a href="#二阶线性递归" class="headerlink" title="二阶线性递归"></a>二阶线性递归</h4><p>首先我们先要有一个预备知识那就是<strong>二阶线性递归</strong>。<br>二阶线性递归是指数列的一项是由前两项的线性组合决定的，次数为一次。通常二阶线性递归的形式可以如下表示：</p>
-<p>$$ a_n = pa_{n-1} + qa_{n-2} $$</p>
-<p>设 \( \alpha, \beta. \)拼凑等比数列，使得，</p>
-<p>$$<br>\begin {aligned}<br>a_n = pa_{n-1} + qa_{n-2} \\<br>a_n = (\alpha+\beta)a_{n-1}-\alpha\beta a_{n-2} \<br>\end {aligned}<br>$$<br>所以，<br>$$<br>\begin{cases}<br>   \alpha+\beta=p \\<br>   \alpha\beta=q<br>   \end{cases}<br>$$<br>若  \( \alpha\not=\beta. \)则</p>
-<p>$$ a_n - \alpha a_{n-1}=\beta^{n-2}(a_2-\alpha a_1) $$</p>
-<p>又由于\(\alpha,\beta 具有对称性\)<br>$$<br>\begin{cases}<br>   \beta a_n - \alpha\beta a_{n-1}=\beta^{n-1}(a_2-\alpha a_1) \\<br>   \alpha a_n - \beta a_{n-1}=\alpha^{n-1}(a_2-\beta a_1)<br>   \end{cases}<br>$$</p>
-<p>解得，<br>$$ a_n=\frac{a_2-\alpha a_1}{\beta(\beta-\alpha)}\beta^n +  \frac{a_2-\beta a_1}{\alpha(\alpha-\beta)}\alpha^n $$</p>
-<p>从上面的式子可以发现特征根法的结果为：</p>
-<p>$$ a_n=A\alpha^n + B\beta^n$$</p>
-<p>其中A，B可以带入两个特殊值求解出，例如\(a_1,a_2。\alpha,\beta\)则为递推公式\(a_n=pa_{n-1}+qa_{n-2}\)对应特征方程\(x^2=px+q\)的两个根。</p>
-<h4 id="赌徒模型"><a href="#赌徒模型" class="headerlink" title="赌徒模型"></a>赌徒模型</h4><p><strong>此时我们引入赌徒破产问题</strong>，假设游戏中赌徒有\(\alpha \)的概率赢得一元，\(1-\alpha \)的概率输掉一元。现在赌徒拥有h元,他的目标是N元，当他成功赢到N元(即手里的前变为N)或者输光已有的h元（手头钱为0）则游戏结束。P(N|h)可以表示赌徒拥有h元赢到N的概率。明显有两个值我们可以求解得P(N|0)=0, P(N|N)=1.</p>
-<p>当赌徒拥有h元时，那么下一轮的状态有\(\alpha \)的概率是h+1或者\(1-\alpha \)的概率是h-1。因此当前胜利的概率可以用下一状态的两种可能的和表示。</p>
-<p>$$ P(N|h) = \alpha P(N|h+1)+(1-\alpha)P(N|h-1) $$<br>这边构成了一个二阶线性递归，根据上面的知识我们知道特征多项式为<br>$$ x^2 - \frac{1}{\alpha}x + \frac{1-\alpha}{\alpha}=0$$<br>很容易的出上面方程的两个根是1和\(r=\frac{1-\alpha}{\alpha}\).所以，<br>$$P(N|h)=A(1)^h+B(r)^h$$<br>带入P(N|0)=0, P(N|N)=1可解得<br>$$<br>\begin{cases}<br>  A+B=0 \\<br>  A+B(r)^N = 1<br> \end{cases}<br>$$</p>
-<p>$$<br>\begin{cases}<br>  A=\frac{1}{1-r^N} \\<br>  B=\frac{-1}{1-r^N}<br>\end{cases}<br>$$</p>
-<p>所以，当赌徒拥有h元最终获得N的概率为<br>$$<br>    P(N|h) = \frac{1-r^h}{1-r^N}<br>$$</p>
-<h4 id="建模解决问题"><a href="#建模解决问题" class="headerlink" title="建模解决问题"></a>建模解决问题</h4><p>论文中的问题如果用赌徒破产模型建模的话可以从两个方面着手，一个是诚实节点拥有z个块，目标是输完最终拥有0个块（也就是攻击节点追上z个）可以用P(0|z)表示这一概率。</p>
-<p>参考上面的模型，此时\(\alpha\)=q(攻击者发现块的概率)</p>
-<p>$$ P(0|z)=\alpha P(0|z-1)+(1-\alpha)p(0|z+1)$$<br>解得，<br>$$<br>    \begin{cases}<br>    x_1=1 \\<br>    x_2=\frac{\alpha}{1-\alpha} = r<br>    \end{cases}<br>$$</p>
-<p>$$P(0|z)=A(1)^z+B(r)^z$$<br>此时我们需要带入两个点求得A,B。 P(0|0)和\(P(0|\infty)\)是两个容易发现的边界点。因为\(r^z\)的单调性不一致需要分类讨论。<br>当0&lt;r&lt;1, \(0&lt;\alpha&lt;\frac{1}{2}\)时，<br>$$<br>    \begin{cases}<br>    A+B=0 \\<br>    A=0<br>    \end{cases}<br>$$<br>所以，B=1,P(0|z)=\((\frac{\alpha}{1-\alpha})^z = (\frac{q}{p})^z\)</p>
-<p>当 \(r\geq 1, \alpha \geq\frac{1}{2}\)时<br>$$<br>    \begin{cases}<br>    A+B=1 \\<br>    A+\infty=0<br>    \end{cases}<br>$$</p>
-<p>所以 P(0|z)=1.当然，从攻击者的角度来求解也是可以的即求解P(z|0),过程与上述类似。</p>
+<h3 id="启动Fabric网络"><a href="#启动Fabric网络" class="headerlink" title="启动Fabric网络"></a>启动Fabric网络</h3><p>所有准备工作已经就绪，执行下面的文件就可以启动fabric网络：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/first-network</span><br><span class="line">./byfn.sh -m generate</span><br><span class="line">./byfn.sh -m up</span><br></pre></td></tr></table></figure>
+<p>此处我们使用的是第一个示例Building Your First Network(BYFN), 打开源码或者输入<strong>./byfn.sh –help</strong>就可以看到使用细节以及实现方式。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh --help</span><br><span class="line">Usage:</span><br><span class="line">byfn.sh -m up|down|restart|generate [-c &lt;channel name&gt;] [-t &lt;timeout&gt;] [-d &lt;delay&gt;] [-f &lt;docker-compose-file&gt;] [-s &lt;dbtype&gt;]</span><br><span class="line">byfn.sh -h|--help (print this message)</span><br><span class="line">  -m &lt;mode&gt; - one of 'up', 'down', 'restart' or 'generate'</span><br><span class="line">    - 'up' - bring up the network with docker-compose up</span><br><span class="line">    - 'down' - clear the network with docker-compose down</span><br><span class="line">    - 'restart' - restart the network</span><br><span class="line">    - 'generate' - generate required certificates and genesis block</span><br><span class="line">  -c &lt;channel name&gt; - channel name to use (defaults to "mychannel")</span><br><span class="line">  -t &lt;timeout&gt; - CLI timeout duration in seconds (defaults to 10000)</span><br><span class="line">  -d &lt;delay&gt; - delay duration in seconds (defaults to 3)</span><br><span class="line">  -f &lt;docker-compose-file&gt; - specify which docker-compose file use (defaults to docker-compose-cli.yaml)</span><br><span class="line">  -s &lt;dbtype&gt; - the database backend to use: goleveldb (default) or couchdb</span><br><span class="line">  -l &lt;language&gt; - the chaincode language: golang (default) or node</span><br><span class="line"></span><br><span class="line">  Typically, one would first generate the required certificates and</span><br><span class="line">  genesis block, then bring up the network. e.g.:</span><br><span class="line"></span><br><span class="line">      byfn.sh -m generate -c mychannel</span><br><span class="line">      byfn.sh -m up -c mychannel -s couchdb</span><br></pre></td></tr></table></figure>
+<p>fabric网络需要先generate，然后再通过传入参数up/down 来启动和终止网络。这个例子中会依据<strong>configtx.yaml</strong>设计的结构依次启动各个功能节点容器。</p>
+<p>值得注意的是</p>
+<ol>
+<li>网络启动后会按照byfn.sh中的代码，创建通道-&gt;所有节点加入通道-&gt;更新anchor节点-&gt;部署<strong>“chaincode_example02”</strong> chaincode-&gt;验证chaincode的init/query/invoke是都可以正常执行。完成整个操作，网络默认运行10000s后关闭。我们在学习中为了方便可以通过<strong>-t</strong> 整个参数来修改运行时间。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh -m up -t 999999</span><br></pre></td></tr></table></figure>
+<ol>
+<li>网络默认使用的是<strong>goleveldb</strong>，如果想使用couchdb可以通过参数-s, 用<strong>docker ps</strong> 查看可以发现会启动一个couchdb的容器，本地访问<strong><a href="http://localhost:5984/_utils" target="_blank" rel="noopener">http://localhost:5984/_utils</a></strong> 进入web管理界面：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh -m up -t 999999	-s couchdb</span><br></pre></td></tr></table></figure>
+<h3 id="部署测试chaincode"><a href="#部署测试chaincode" class="headerlink" title="部署测试chaincode"></a>部署测试chaincode</h3><p>已经自动部署了02 可以直接测试使用</p>
+<p>演示部署marble 测试</p>
 
       
     </div>
@@ -391,7 +379,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/bitcoin/" rel="tag">#bitcoin</a>
+            <a href="/tags/hyperledger/" rel="tag">#hyperledger</a>
           
         </div>
       
@@ -400,17 +388,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/07/txAnalysis-1/" rel="next" title="实现访问Bitcoin核心的JSON-RPC接口">
-                <i class="fa fa-chevron-left"></i> 实现访问Bitcoin核心的JSON-RPC接口
+              <a href="/2017/07/18/hyperledgerInfo/" rel="next" title="hyperledger是什么">
+                <i class="fa fa-chevron-left"></i> hyperledger是什么
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/07/entropy/" rel="prev" title="基于条件熵的聚类评估方法Homogeneity和Completeness">
-                基于条件熵的聚类评估方法Homogeneity和Completeness <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,8 +420,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/24/bitcoinReRead/"
-           data-title="比特币白皮书Calculations解读" data-url="http://demontf.github.io/2017/03/24/bitcoinReRead/">
+      <div class="ds-thread" data-thread-key="2017/11/18/hyperledgerfabric01/"
+           data-title="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)" data-url="http://demontf.github.io/2017/11/18/hyperledgerfabric01/">
       </div>
     
   </div>
@@ -571,7 +555,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#赌徒破产模型"><span class="nav-number">1.</span> <span class="nav-text">赌徒破产模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二阶线性递归"><span class="nav-number">1.1.</span> <span class="nav-text">二阶线性递归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#赌徒模型"><span class="nav-number">1.2.</span> <span class="nav-text">赌徒模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建模解决问题"><span class="nav-number">1.3.</span> <span class="nav-text">建模解决问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Fabric网络"><span class="nav-number">2.</span> <span class="nav-text">启动Fabric网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署测试chaincode"><span class="nav-number">3.</span> <span class="nav-text">部署测试chaincode</span></a></li></ol></div>
             
           </div>
         </section>
