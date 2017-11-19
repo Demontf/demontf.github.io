@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="退休的神">
 <meta property="og:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker –version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 d">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-19T01:19:26.000Z">
+<meta property="og:updated_time" content="2017-11-19T06:59:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
 <meta name="twitter:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker –version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用 d">
@@ -336,8 +336,25 @@
 <li>网络默认使用的是<strong>goleveldb</strong>，如果想使用couchdb可以通过参数-s, 用<strong>docker ps</strong> 查看可以发现会启动一个couchdb的容器，本地访问<strong><a href="http://localhost:5984/_utils" target="_blank" rel="noopener">http://localhost:5984/_utils</a></strong> 进入web管理界面：</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh -m up -t 999999	-s couchdb</span><br></pre></td></tr></table></figure>
-<h3 id="部署测试chaincode"><a href="#部署测试chaincode" class="headerlink" title="部署测试chaincode"></a>部署测试chaincode</h3><p>已经自动部署了02 可以直接测试使用</p>
-<p>演示部署marble 测试</p>
+<h3 id="部署测试chaincode"><a href="#部署测试chaincode" class="headerlink" title="部署测试chaincode"></a>部署测试chaincode</h3><p>部署和执行chaincode需要先进入CLI容器:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it cli bash</span><br><span class="line">root@0d78bb69300d:/opt/gopath/src/github.com/hyperledger/fabric/peer#</span><br></pre></td></tr></table></figure>
+<p>上面提到过，因为byfn.sh脚本中已经完成了一些列设置。所以我们可以简单测试一下<strong>“chaincode_example02”</strong>这个chaincode的功能，完成转账查询等操作。已Go语言为例</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '&#123;"Args":["init","a", "100", "b","200"]&#125;' -P "OR ('Org1MSP.member','Org2MSP.member')"</span><br></pre></td></tr></table></figure>
+<p>查询a的余额</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C $CHANNEL_NAME -n mycc -c '&#123;"Args":["query","a"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>完成a给b转账20</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode invoke -o orderer.example.com:7050  --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem  -C $CHANNEL_NAME -n mycc -c '&#123;"Args":["invoke","a","b","10"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>已经自动部署了02 可以直接测试使用。<br>手动部署另外一个例子中提供的chaincode，<strong>marbles02</strong>(不同版本这个例子所在的路径有可能略有不同，在部署chaincode的时候如果报错修改命令中的路径即可).</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go</span><br><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '&#123;"Args":["init"]&#125;' -P "OR ('Org0MSP.member','Org1MSP.member')"</span><br><span class="line">``` </span><br><span class="line">注：各个命令的语法可以使用help查看解释，例如-P ('Org0MSP.member','Org1MSP.member')" 表明要求背书结点至少选Org0MSP0和Org0MSP1中的一个。</span><br><span class="line"></span><br><span class="line">调用chaincode中的invoke修改数据, 与上面类似</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["initMarble","marble1","blue","35","tom"]&#125;'</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["initMarble","marble2","red","50","tom"]&#125;'</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["initMarble","marble3","blue","70","tom"]&#125;'</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["transferMarble","marble2","jerry"]&#125;'</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["transferMarblesBasedOnColor","blue","jerry"]&#125;'</span><br><span class="line">peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["delete","marble1"]&#125;'</span><br></pre></td></tr></table></figure>
+<p>查询命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode query -C $CHANNEL_NAME -n marbles -c '&#123;"Args":["readMarble","marble2"]&#125;'</span><br></pre></td></tr></table></figure>
+<h3 id="常用docker命令"><a href="#常用docker命令" class="headerlink" title="常用docker命令"></a>常用docker命令</h3><ul>
+<li>docker network prune  #擦除环境设置，恢复干净的网络环境</li>
+<li>docker ps   # list running container</li>
+<li>docker rm -f $(docker ps -aq) # remove container</li>
+<li>docker rmi -f $(docker images -q) # remove image</li>
+<li>docker logs -f cli # 查看日志</li>
+</ul>
 
       
     </div>
@@ -555,7 +572,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Fabric网络"><span class="nav-number">2.</span> <span class="nav-text">启动Fabric网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署测试chaincode"><span class="nav-number">3.</span> <span class="nav-text">部署测试chaincode</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动Fabric网络"><span class="nav-number">2.</span> <span class="nav-text">启动Fabric网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署测试chaincode"><span class="nav-number">3.</span> <span class="nav-text">部署测试chaincode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用docker命令"><span class="nav-number">4.</span> <span class="nav-text">常用docker命令</span></a></li></ol></div>
             
           </div>
         </section>
