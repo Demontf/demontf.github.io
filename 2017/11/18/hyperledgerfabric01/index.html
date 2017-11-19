@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="退休的神">
 <meta property="og:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker --version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-19T08:20:39.000Z">
+<meta property="og:updated_time" content="2017-11-19T08:46:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
 <meta name="twitter:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker --version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用">
@@ -320,7 +320,7 @@
 <p><strong>Hyperledger Fabric Samples</strong>是由官方给出的一个示例集合，包含好几个不同拓扑结构的fabric样例以及不同功能的chaincode源码，为我们学习的提供了很好的参考。获取方式</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b master https://github.com/hyperledger/fabric-samples.git</span><br></pre></td></tr></table></figure>
 <p>最后一步准备工作是需要下载Fabric平台所需的binaries文件，包括<strong>cryptogen</strong>,<strong>configtxgen</strong>,<strong>configtxlator</strong>, 和<strong>peer</strong>这些工具不仅可以配合Samples使用，还可以提供很多方便强大的功能有机会在介绍，下载方式：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://goo.gl/fMh2s3 | bash</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://goo.gl/fMh2s3 | bash</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="启动Fabric网络"><a href="#启动Fabric网络" class="headerlink" title="启动Fabric网络"></a>启动Fabric网络</h3><p>所有准备工作已经就绪，执行下面的文件就可以启动fabric网络：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd fabric-samples/first-network</span><br><span class="line">./byfn.sh -m generate</span><br><span class="line">./byfn.sh -m up</span><br></pre></td></tr></table></figure>
