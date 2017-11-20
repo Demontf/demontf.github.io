@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="退休的神">
 <meta property="og:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker --version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-19T08:46:09.000Z">
+<meta property="og:updated_time" content="2017-11-20T07:07:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hyperledger Fabric 容器部署以及chaincode测试(BYFN)">
 <meta name="twitter:description" content="准备工作我是在Mac笔记本上完成的一下操作，其他平台类似。在部署fabric之前需要为电脑安装一下几个软件： Docker 可以从小鲸鱼官网下载桌面版安装，很方面启动、停止、重启docker服务。安装并启动后可在控制台使用 docker --version 命令测试是否正常。此次安装还自动添加了一个docker的工具docker-compose，这个工具在fabric的部署中会用到，同样可以使用">
@@ -336,7 +336,7 @@
  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh -m up -t 999999 -s couchdb</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="部署测试chaincode"><a href="#部署测试chaincode" class="headerlink" title="部署测试chaincode"></a>部署测试chaincode</h3><p>部署和执行chaincode需要先进入CLI容器:</p>
+<h3 id="部署测试chaincode"><a href="#部署测试chaincode" class="headerlink" title="部署测试chaincode"></a>部署测试chaincode</h3><p>部署和执行chaincode需要先进入CLI容器(docker 从fabric-tools镜像启动的container):</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it cli bash</span><br><span class="line">root@0d78bb69300d:/opt/gopath/src/github.com/hyperledger/fabric/peer#</span><br></pre></td></tr></table></figure>
 <p>上面提到过，因为byfn.sh脚本中已经完成了一些列设置。所以我们可以简单测试一下<strong>“chaincode_example02”</strong>这个chaincode的功能，完成转账查询等操作。已Go语言为例</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '&#123;"Args":["init","a", "100", "b","200"]&#125;' -P "OR ('Org1MSP.member','Org2MSP.member')"</span><br></pre></td></tr></table></figure>
